@@ -2,7 +2,7 @@
 # contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
 baseURL: "https://www.dididigu.com/"
 title: PaperMod
-copyright: "© [PaperMod Contributors](https://github.com/adityatelange/hugo-PaperMod/graphs/contributors)"
+copyright: "[DiDi's Website](https://www.dididigu.com/)"
 paginate: 5
 theme: ["PaperMod"]
 
@@ -19,9 +19,10 @@ minify:
   disableXML: true
   # minifyOutput: true
 
+defaultContentLanguage: zh
 languages:
-  en:
-    languageName: "English"
+  zh:
+    languageName: "Chinese"
     weight: 1
     taxonomies:
       category: categories
@@ -29,78 +30,20 @@ languages:
       series: series
     menu:
       main:
-        - name: Archive
-          url: archives
-          weight: 5
-        - name: Search
-          url: search/
-          weight: 10
-        - name: Tags
-          url: tags/
-          weight: 10
-        - name: WiKi
-          url: https://github.com/adityatelange/hugo-PaperMod/wiki/
-
-  fr:
-    languageName: ":fr:"
-    weight: 2
-    title: PaperModL2
-    taxonomies:
-      category: FRcategories
-      tag: FRtags
-      series: FRseries
-    menu:
-      main:
+        - name: Categories
+          url: categories/
+          weight: 2
         - name: Archive
           url: archives/
           weight: 5
-        - name: FRTags
-          url: frtags
+        - name: Tags
+          url: tags/
           weight: 10
-        - name: FRCategories
-          url: frcategories
+        - name: Feed
+          url: /index.xml
           weight: 10
-        - name: FRSeries
-          url: frseries
-          weight: 10
-        - name: NullLink
-          url: "#"
-
-    # custom params for each language should be under [langcode].parms - hugo v0.120.0
-    params:
-      languageAltTitle: French
-      profileMode:
-        enabled: true
-        title: PaperMod
-        imageUrl: "https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u1f9d1_1f3fb_200d_1f4bb.svg"
-        imageTitle: ProfileMode image
-        # imageWidth: 120
-        # imageHeight: 120
-        subtitle: "☄️ Fast | ☁️ Fluent | 🌙 Smooth | 📱 Responsive"
-        buttons:
-          - name: Blog
-            url: posts
-          - name: Profile Mode
-            url: https://github.com/adityatelange/hugo-PaperMod/wiki/Features#profile-mode
-
-  fa:
-    languagedirection: rtl
-    weight: 3
-    title: PaperMod RTL
-    taxonomies:
-      category: FAcategories
-      tag: FAtags
-      series: FAseries
-    menu:
-      main:
-        - name: FATags
-          url: fatags
-          weight: 10
-    # custom params for each language should be under [langcode].parms - hugo v0.120.0
-    params:
-      homeInfoParams:
-        Title: "Hi there \U0001F44B"
-        Content: Welcome to RTL layout
+        - name: About
+          url: https://github.com/adityatelange/hugo-PaperMod/wiki/
 
 outputs:
   home:
@@ -110,13 +53,14 @@ outputs:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  description: "Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
-  author: Theme PaperMod
+  description: "DiDi's Website - https://www.dididigu.com/"
+  author: Me
   # author: ["Me", "You"] # multiple authors
 
-  defaultTheme: auto
-  # disableThemeToggle: true
-  ShowShareButtons: true
+  defaultTheme: light
+  disableThemeToggle: true
+  ShowShareButtons: false
+  ShareButtons: ["x", "facebook"]
   ShowReadingTime: true
   # disableSpecial1stPost: true
   displayFullLangName: true
@@ -127,12 +71,12 @@ params:
   ShowAllPagesInArchive: true
   ShowPageNums: true
   ShowToc: true
-  # comments: false
+  comments: false
   images: ["images/papermod-cover.png"]
 
   profileMode:
     enabled: false
-    title: PaperMod
+    title: DiDi's Website
     imageUrl: "#"
     imageTitle: my image
     # imageWidth: 120
@@ -156,22 +100,22 @@ params:
 
   socialIcons:
     - name: github
-      title: View Source on Github
-      url: "https://github.com/adityatelange/hugo-PaperMod"
-    - name: Discord
-      title: Join discord community
-      url: "https://discord.gg/ahpmTvhVmp"
+      title: View My Project on Github
+      url: "https://github.com/tesths/"
+    - name: Bilibili
+      title: Check my video
+      url: "https://space.bilibili.com/18280464"
     - name: X
-      title: Share PaperMod on X/Twitter
-      url: "https://x.com/intent/tweet/?text=Checkout%20Hugo%20PaperMod%20%E2%9C%A8%0AA%20fast,%20clean,%20responsive%20Hugo%20theme.&url=https://github.com/adityatelange/hugo-PaperMod&hashtags=Hugo,PaperMod"
-    - name: KoFi
+      title: Contact Me on X/Twitter
+      url: "https://x.com/judi0713"
+    - name: email
       title: Buy me a Ko-Fi :)
-      url: "https://ko-fi.com/adityatelange"
+      url: "mailto:judi0713@foxmail.com"
 
-  editPost:
-    URL: "https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/content"
-    Text: "Suggest Changes" # edit text
-    appendFilePath: true # to append file path to Edit link
+  # editPost:
+  #   URL: "https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/content"
+  #   Text: "Suggest Changes" # edit text
+  #   appendFilePath: true # to append file path to Edit link
 
   # label:
   # iconSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="25" viewBox="0 -960 960 960" fill="currentColor"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>'
@@ -240,3 +184,5 @@ services:
     disableInlineCSS: true
   twitter:
     disableInlineCSS: true
+  disqus:
+    shortname: "dididigu"
