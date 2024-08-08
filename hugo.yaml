@@ -1,7 +1,7 @@
 # If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
 # contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
 baseURL: "https://www.dididigu.com/"
-title: PaperMod
+title: 迪迪咕咕
 copyright: "[DiDi's Website](https://www.dididigu.com/)"
 paginate: 5
 theme: ["PaperMod"]
@@ -30,19 +30,19 @@ languages:
       series: series
     menu:
       main:
-        - name: Categories
+        - name: 分类
           url: categories/
           weight: 2
-        - name: Archive
+        - name: 归档
           url: archives/
           weight: 5
-        - name: Tags
+        - name: 标签
           url: tags/
           weight: 10
-        - name: Feed
+        - name: 订阅
           url: /index.xml
           weight: 10
-        - name: About
+        - name: 关于
           url: https://github.com/adityatelange/hugo-PaperMod/wiki/
 
 outputs:
@@ -88,15 +88,13 @@ params:
         url: tags
 
   homeInfoParams:
-    Title: "PaperMod's Demo"
+    Title: "DiDi's Blog"
     Content: >
-      👋 Welcome to demo page of Hugo's theme PaperMod!
+      我是迪迪。也在用 tesths 的英文名。
 
-      - **PaperMod**  is designed to be clean and simple but fast and responsive theme with useful feature-set that enhances UX.
-
-      - Feel free to show your support by giving us a star 🌟 on GitHub and sharing with your friends and social media .
-
-      - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper/tree/4330c8b12aa48bfdecbcad6ad66145f679a430b3).
+      - 做过 iOS 和 Mac 的软件。现在在做 Chrome 的插件。
+      
+      - 也是一名老师，会教书会教编程。看过大量 AI Prompts，写的一手好 AI 提示词。
 
   socialIcons:
     - name: github
