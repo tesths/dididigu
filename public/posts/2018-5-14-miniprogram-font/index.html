@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>微信小程序自定义字体 | PaperMod</title>
+<meta name="keywords" content="">
+<meta name="description" content="最近给单位在做小程序，中间需要使用自定义字体。稍微梳理下整个过程。
+起因 在小程序中是可以使用 font-family 属性的，但是官方没有给出有哪些 font 是可以选用的，所以我们无法知道小程序到底可以支持哪些内置的字体。自定义字体就成为了一个问题。
+小程序本身不支持将字体拖进去，然后通过引用的方式来使用字体。即使可以，一个思源字体随便都 10MB，拖进去之后整个大小就超过了小程序的 2MB 限制。
+在网上查找之后还有一个方案，就是使用在线的 transfonter.org 将字体转换成 base64 的方式。有使用 base64 的方案，但是还是会超过大小。而且 transfonter.org 对字体的大小本身还存在限制。这就是很麻烦的一件事情。
+解决方案 那么如何解决呢？我这里提供两个方案。
+一是通过在线应用 url 的方式。
+这种方案就是将字体文件存在文件服务器上，通过地址的方案引到小程序中，比如我下午使用的 http://o9791noio.bkt.clouddn.com/songti.TTF 这个网址，是七牛的，可以使用！而且这种方案在 zanui-weapp 的 issue 是有人提到的，链接是 使用&quot;单元格&quot;时，icon无法使用，但是我在真机测试的时候不可以，没有具体排查。我觉得问题的原因有两个，一是网上有些资料说 iOS 必须使用 https，二还是最根本的字体大小的问题，如果字体太大，模拟器就会有错误提示，真机在最开始如果没有加载也会非常麻烦。总之这个方案目前是被我 pass 的。
+二就是下面我现在使用的我觉得合理的方案。上 字蛛。当然这个也不是最好的解决方案。
+根据我的需求，我需要的个性化字体都是写死了，就是不需要网络加载。那么就可以采用字蛛对字体进行压缩。字蛛会把 html 中用到的字进行提取和压缩，用不到的就 pass 掉。这样会给原来的 ttf 文件进行一个强力的压缩，比如我压缩之后整个 ttf 文件的大小就变成了 8kb。这个效果还是显而易见的，这个时候再采用 transfonter.org 将字体转换为 base64 就可以了。
+脑洞 那么假设一下一个情况，如果需要的是动态字体怎么办？
+虽然我暂时还没有这个需求，我想到的方案是，首先后台会将专门的字体进行一个标记，那么在标记之后，使用 font-spider 将原字体进行压缩，再使用 url 获取的方式来动态加载，由于这个时候的字体文件很小，那么就不会有字体太大手机端加载不出来的情况。
+或者就是直接把常用字进行 base64 加密，就省去了网络获取的问题了。
+非常想知道青芒杂志咋弄的 哈哈。">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/posts/2018-5-14-miniprogram-font/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/2018-5-14-miniprogram-font/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="微信小程序自定义字体" />
+<meta property="og:description" content="最近给单位在做小程序，中间需要使用自定义字体。稍微梳理下整个过程。
+起因 在小程序中是可以使用 font-family 属性的，但是官方没有给出有哪些 font 是可以选用的，所以我们无法知道小程序到底可以支持哪些内置的字体。自定义字体就成为了一个问题。
+小程序本身不支持将字体拖进去，然后通过引用的方式来使用字体。即使可以，一个思源字体随便都 10MB，拖进去之后整个大小就超过了小程序的 2MB 限制。
+在网上查找之后还有一个方案，就是使用在线的 transfonter.org 将字体转换成 base64 的方式。有使用 base64 的方案，但是还是会超过大小。而且 transfonter.org 对字体的大小本身还存在限制。这就是很麻烦的一件事情。
+解决方案 那么如何解决呢？我这里提供两个方案。
+一是通过在线应用 url 的方式。
+这种方案就是将字体文件存在文件服务器上，通过地址的方案引到小程序中，比如我下午使用的 http://o9791noio.bkt.clouddn.com/songti.TTF 这个网址，是七牛的，可以使用！而且这种方案在 zanui-weapp 的 issue 是有人提到的，链接是 使用&quot;单元格&quot;时，icon无法使用，但是我在真机测试的时候不可以，没有具体排查。我觉得问题的原因有两个，一是网上有些资料说 iOS 必须使用 https，二还是最根本的字体大小的问题，如果字体太大，模拟器就会有错误提示，真机在最开始如果没有加载也会非常麻烦。总之这个方案目前是被我 pass 的。
+二就是下面我现在使用的我觉得合理的方案。上 字蛛。当然这个也不是最好的解决方案。
+根据我的需求，我需要的个性化字体都是写死了，就是不需要网络加载。那么就可以采用字蛛对字体进行压缩。字蛛会把 html 中用到的字进行提取和压缩，用不到的就 pass 掉。这样会给原来的 ttf 文件进行一个强力的压缩，比如我压缩之后整个 ttf 文件的大小就变成了 8kb。这个效果还是显而易见的，这个时候再采用 transfonter.org 将字体转换为 base64 就可以了。
+脑洞 那么假设一下一个情况，如果需要的是动态字体怎么办？
+虽然我暂时还没有这个需求，我想到的方案是，首先后台会将专门的字体进行一个标记，那么在标记之后，使用 font-spider 将原字体进行压缩，再使用 url 获取的方式来动态加载，由于这个时候的字体文件很小，那么就不会有字体太大手机端加载不出来的情况。
+或者就是直接把常用字进行 base64 加密，就省去了网络获取的问题了。
+非常想知道青芒杂志咋弄的 哈哈。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2018-5-14-miniprogram-font/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-05-14T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="微信小程序自定义字体"/>
+<meta name="twitter:description" content="最近给单位在做小程序，中间需要使用自定义字体。稍微梳理下整个过程。
+起因 在小程序中是可以使用 font-family 属性的，但是官方没有给出有哪些 font 是可以选用的，所以我们无法知道小程序到底可以支持哪些内置的字体。自定义字体就成为了一个问题。
+小程序本身不支持将字体拖进去，然后通过引用的方式来使用字体。即使可以，一个思源字体随便都 10MB，拖进去之后整个大小就超过了小程序的 2MB 限制。
+在网上查找之后还有一个方案，就是使用在线的 transfonter.org 将字体转换成 base64 的方式。有使用 base64 的方案，但是还是会超过大小。而且 transfonter.org 对字体的大小本身还存在限制。这就是很麻烦的一件事情。
+解决方案 那么如何解决呢？我这里提供两个方案。
+一是通过在线应用 url 的方式。
+这种方案就是将字体文件存在文件服务器上，通过地址的方案引到小程序中，比如我下午使用的 http://o9791noio.bkt.clouddn.com/songti.TTF 这个网址，是七牛的，可以使用！而且这种方案在 zanui-weapp 的 issue 是有人提到的，链接是 使用&quot;单元格&quot;时，icon无法使用，但是我在真机测试的时候不可以，没有具体排查。我觉得问题的原因有两个，一是网上有些资料说 iOS 必须使用 https，二还是最根本的字体大小的问题，如果字体太大，模拟器就会有错误提示，真机在最开始如果没有加载也会非常麻烦。总之这个方案目前是被我 pass 的。
+二就是下面我现在使用的我觉得合理的方案。上 字蛛。当然这个也不是最好的解决方案。
+根据我的需求，我需要的个性化字体都是写死了，就是不需要网络加载。那么就可以采用字蛛对字体进行压缩。字蛛会把 html 中用到的字进行提取和压缩，用不到的就 pass 掉。这样会给原来的 ttf 文件进行一个强力的压缩，比如我压缩之后整个 ttf 文件的大小就变成了 8kb。这个效果还是显而易见的，这个时候再采用 transfonter.org 将字体转换为 base64 就可以了。
+脑洞 那么假设一下一个情况，如果需要的是动态字体怎么办？
+虽然我暂时还没有这个需求，我想到的方案是，首先后台会将专门的字体进行一个标记，那么在标记之后，使用 font-spider 将原字体进行压缩，再使用 url 获取的方式来动态加载，由于这个时候的字体文件很小，那么就不会有字体太大手机端加载不出来的情况。
+或者就是直接把常用字进行 base64 加密，就省去了网络获取的问题了。
+非常想知道青芒杂志咋弄的 哈哈。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "微信小程序自定义字体",
+      "item": "http://localhost:1313/posts/2018-5-14-miniprogram-font/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "微信小程序自定义字体",
+  "name": "微信小程序自定义字体",
+  "description": "最近给单位在做小程序，中间需要使用自定义字体。稍微梳理下整个过程。\n起因 在小程序中是可以使用 font-family 属性的，但是官方没有给出有哪些 font 是可以选用的，所以我们无法知道小程序到底可以支持哪些内置的字体。自定义字体就成为了一个问题。\n小程序本身不支持将字体拖进去，然后通过引用的方式来使用字体。即使可以，一个思源字体随便都 10MB，拖进去之后整个大小就超过了小程序的 2MB 限制。\n在网上查找之后还有一个方案，就是使用在线的 transfonter.org 将字体转换成 base64 的方式。有使用 base64 的方案，但是还是会超过大小。而且 transfonter.org 对字体的大小本身还存在限制。这就是很麻烦的一件事情。\n解决方案 那么如何解决呢？我这里提供两个方案。\n一是通过在线应用 url 的方式。\n这种方案就是将字体文件存在文件服务器上，通过地址的方案引到小程序中，比如我下午使用的 http://o9791noio.bkt.clouddn.com/songti.TTF 这个网址，是七牛的，可以使用！而且这种方案在 zanui-weapp 的 issue 是有人提到的，链接是 使用\u0026quot;单元格\u0026quot;时，icon无法使用，但是我在真机测试的时候不可以，没有具体排查。我觉得问题的原因有两个，一是网上有些资料说 iOS 必须使用 https，二还是最根本的字体大小的问题，如果字体太大，模拟器就会有错误提示，真机在最开始如果没有加载也会非常麻烦。总之这个方案目前是被我 pass 的。\n二就是下面我现在使用的我觉得合理的方案。上 字蛛。当然这个也不是最好的解决方案。\n根据我的需求，我需要的个性化字体都是写死了，就是不需要网络加载。那么就可以采用字蛛对字体进行压缩。字蛛会把 html 中用到的字进行提取和压缩，用不到的就 pass 掉。这样会给原来的 ttf 文件进行一个强力的压缩，比如我压缩之后整个 ttf 文件的大小就变成了 8kb。这个效果还是显而易见的，这个时候再采用 transfonter.org 将字体转换为 base64 就可以了。\n脑洞 那么假设一下一个情况，如果需要的是动态字体怎么办？\n虽然我暂时还没有这个需求，我想到的方案是，首先后台会将专门的字体进行一个标记，那么在标记之后，使用 font-spider 将原字体进行压缩，再使用 url 获取的方式来动态加载，由于这个时候的字体文件很小，那么就不会有字体太大手机端加载不出来的情况。\n或者就是直接把常用字进行 base64 加密，就省去了网络获取的问题了。\n非常想知道青芒杂志咋弄的 哈哈。",
+  "keywords": [
+    
+  ],
+  "articleBody": "最近给单位在做小程序，中间需要使用自定义字体。稍微梳理下整个过程。\n起因 在小程序中是可以使用 font-family 属性的，但是官方没有给出有哪些 font 是可以选用的，所以我们无法知道小程序到底可以支持哪些内置的字体。自定义字体就成为了一个问题。\n小程序本身不支持将字体拖进去，然后通过引用的方式来使用字体。即使可以，一个思源字体随便都 10MB，拖进去之后整个大小就超过了小程序的 2MB 限制。\n在网上查找之后还有一个方案，就是使用在线的 transfonter.org 将字体转换成 base64 的方式。有使用 base64 的方案，但是还是会超过大小。而且 transfonter.org 对字体的大小本身还存在限制。这就是很麻烦的一件事情。\n解决方案 那么如何解决呢？我这里提供两个方案。\n一是通过在线应用 url 的方式。\n这种方案就是将字体文件存在文件服务器上，通过地址的方案引到小程序中，比如我下午使用的 http://o9791noio.bkt.clouddn.com/songti.TTF 这个网址，是七牛的，可以使用！而且这种方案在 zanui-weapp 的 issue 是有人提到的，链接是 使用\"单元格\"时，icon无法使用，但是我在真机测试的时候不可以，没有具体排查。我觉得问题的原因有两个，一是网上有些资料说 iOS 必须使用 https，二还是最根本的字体大小的问题，如果字体太大，模拟器就会有错误提示，真机在最开始如果没有加载也会非常麻烦。总之这个方案目前是被我 pass 的。\n二就是下面我现在使用的我觉得合理的方案。上 字蛛。当然这个也不是最好的解决方案。\n根据我的需求，我需要的个性化字体都是写死了，就是不需要网络加载。那么就可以采用字蛛对字体进行压缩。字蛛会把 html 中用到的字进行提取和压缩，用不到的就 pass 掉。这样会给原来的 ttf 文件进行一个强力的压缩，比如我压缩之后整个 ttf 文件的大小就变成了 8kb。这个效果还是显而易见的，这个时候再采用 transfonter.org 将字体转换为 base64 就可以了。\n脑洞 那么假设一下一个情况，如果需要的是动态字体怎么办？\n虽然我暂时还没有这个需求，我想到的方案是，首先后台会将专门的字体进行一个标记，那么在标记之后，使用 font-spider 将原字体进行压缩，再使用 url 获取的方式来动态加载，由于这个时候的字体文件很小，那么就不会有字体太大手机端加载不出来的情况。\n或者就是直接把常用字进行 base64 加密，就省去了网络获取的问题了。\n非常想知道青芒杂志咋弄的 哈哈。\n",
+  "wordCount" : "66",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2018-05-14T00:00:00Z",
+  "dateModified": "2018-05-14T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2018-5-14-miniprogram-font/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PaperMod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="PaperMod (Alt + H)">PaperMod</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="Feed">
+                    <span>Feed</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="About">
+                    <span>About</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      微信小程序自定义字体
+    </h1>
+    <div class="post-meta"><span title='2018-05-14 00:00:00 +0000 UTC'>五月 14, 2018</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%b5%b7%e5%9b%a0" aria-label="起因">起因</a></li>
+                <li>
+                    <a href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88" aria-label="解决方案">解决方案</a></li>
+                <li>
+                    <a href="#%e8%84%91%e6%b4%9e" aria-label="脑洞">脑洞</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>最近给单位在做小程序，中间需要使用自定义字体。稍微梳理下整个过程。</p>
+<h2 id="起因">起因<a hidden class="anchor" aria-hidden="true" href="#起因">#</a></h2>
+<p>在小程序中是可以使用 font-family 属性的，但是官方没有给出有哪些 font 是可以选用的，所以我们无法知道小程序到底可以支持哪些内置的字体。自定义字体就成为了一个问题。</p>
+<p>小程序本身不支持将字体拖进去，然后通过引用的方式来使用字体。即使可以，一个思源字体随便都 10MB，拖进去之后整个大小就超过了小程序的 2MB 限制。</p>
+<p>在网上查找之后还有一个方案，就是使用在线的 <a href="https://transfonter.org/">transfonter.org</a> 将字体转换成 base64 的方式。有使用 base64 的方案，但是还是会超过大小。而且 <a href="https://transfonter.org/">transfonter.org</a> 对字体的大小本身还存在限制。这就是很麻烦的一件事情。</p>
+<h2 id="解决方案">解决方案<a hidden class="anchor" aria-hidden="true" href="#解决方案">#</a></h2>
+<p>那么如何解决呢？我这里提供两个方案。</p>
+<p><strong>一是通过在线应用 url 的方式。</strong></p>
+<p>这种方案就是将字体文件存在文件服务器上，通过地址的方案引到小程序中，比如我下午使用的 <a href="http://o9791noio.bkt.clouddn.com/songti.TTF">http://o9791noio.bkt.clouddn.com/songti.TTF</a> 这个网址，是七牛的，可以使用！而且这种方案在 <a href="https://github.com/youzan/zanui-weapp">zanui-weapp</a> 的 issue 是有人提到的，链接是 <a href="https://github.com/youzan/zanui-weapp/issues/101">使用&quot;单元格&quot;时，icon无法使用</a>，但是我在真机测试的时候不可以，没有具体排查。我觉得问题的原因有两个，一是网上有些资料说 iOS 必须使用 https，二还是最根本的字体大小的问题，如果字体太大，模拟器就会有错误提示，真机在最开始如果没有加载也会非常麻烦。总之这个方案目前是被我 pass 的。</p>
+<p><strong>二就是下面我现在使用的我觉得合理的方案。上 <a href="http://font-spider.org/">字蛛</a>。当然这个也不是最好的解决方案。</strong></p>
+<p>根据我的需求，我需要的个性化字体都是写死了，就是不需要网络加载。那么就可以采用字蛛对字体进行压缩。字蛛会把 html 中用到的字进行提取和压缩，用不到的就 pass 掉。这样会给原来的 ttf 文件进行一个强力的压缩，比如我压缩之后整个 ttf 文件的大小就变成了 8kb。这个效果还是显而易见的，这个时候再采用 <a href="https://transfonter.org/">transfonter.org</a> 将字体转换为 base64 就可以了。</p>
+<h2 id="脑洞">脑洞<a hidden class="anchor" aria-hidden="true" href="#脑洞">#</a></h2>
+<p><strong>那么假设一下一个情况，如果需要的是动态字体怎么办？</strong></p>
+<p>虽然我暂时还没有这个需求，我想到的方案是，首先后台会将专门的字体进行一个标记，那么在标记之后，使用 font-spider 将原字体进行压缩，再使用 url 获取的方式来动态加载，由于这个时候的字体文件很小，那么就不会有字体太大手机端加载不出来的情况。</p>
+<p>或者就是直接把常用字进行 base64 加密，就省去了网络获取的问题了。</p>
+<p>非常想知道青芒杂志咋弄的 哈哈。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/mac-ffmpeg-subtitle-and-logo/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>Mac 下压制字幕和 logo</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/2018-5-9-ruby-memory/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>查找 ruby 内存泄漏</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

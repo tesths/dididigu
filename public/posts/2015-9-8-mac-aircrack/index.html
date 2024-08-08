@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Mac安装Aircrack-ng | PaperMod</title>
+<meta name="keywords" content="">
+<meta name="description" content="9.4号中午去外面吃完冒菜回来都快三点了，这个点尴尬的不行。于是就去工作室倒腾点东西。也不想写代码，就开始各种在mac下装软件。项目基本上暂时没有什么要特别忙的，我也不能总写，都写了慎哥就没得写了。今晚上就把之前做的东西来个小记。
+想到的是破译wifi，当然最终因为各种因素没破译成功。不过中间过程还是很享受的。下面开始。
+百度了一下。有一篇MACOS苹果系统下破解无线网WPA,WPA2密码。用到的主要工具是Aircrack。于是就开始倒腾了。
+安装macport 首先第一步要安装macport。macport据我理解，相当于homebrew，ubuntu下相当于apt-get install。根据官网来说，安装macport最简单的方法就是下载pkg文件直接安装，但是我在下载pkg安装过程中，会出现卡死的问题。google了半天没找到解决方法。于是就下载了源代码安装，这在官网上都有说明。前面什么安装xcode的command line tools那是装机必备我就不多说了。
+下载之后在官网上有说明，解压之后进入目录，进行./configure &amp;&amp; make &amp;&amp; sudo make install 之后需要添加环境变量，我没看懂官网的说明，自行google了一下。看到很多人的博客都写过这个问题，我在此就摘录一下。
+需要将/opt/local/bin和/opt/local/sbin添加到$PATH搜索路径中。然后编辑/etc/profile，这里需要超级用户。如果用vim的话需要wq！在profile里加入下面两句
+export PATH=/opt/local/bin:$PATH
+export PATH=/opt/local/sbin:$PATH
+然后就可以了，如果要立即生效，那么需要利用source命令source /etc/profile
+这样就可以用了，执行sudo port -v selfupdate更新。到这步会发现好像仿佛是被墙了。。。
+安装proxychains 然后我又陷入了难题，好不容易手动编译安装成功了。结果更新好像被墙了咋办。查查查，命令行下使用代理的方法。找到一个东西，叫做proxychains。搜这个用了好久，因为我用的是ss，ss支持的时socks5，而iterm支持http，这就麻烦了。后来在v2ex上发现hzlzh问了这个问题。我就安装这个了。
+安装proxychains4非常简单，直接用homebrew就可以了。brew install proxychains-ng 安装完毕要设置代理
+修改/usr/local/etc/proxychains.conf 最下面 [ProxyList] socks5 127.0.0.1 1080 测试proxychain能不能用，proxychains4 curl twitter.com会显示ok。我就不截图了。
+proxychain可以让它后面的命令行直接走代理的路线，而不用直接进行网络请求。 我刚刚用这个加上home cask装了macdown。还是很不错的。因为很多命令行是需要进行网络请求的。
+之后就可以proxychains4 sudo port -v selfupdate了。可能有点慢，不过我这次可以正常了。
+安装aircrack-ng 最后的最后，我们可以用sudo port install aircrack-ng就可以安装aircrack了。
+好了，剩下的就是按照那个博客说的来破解了&hellip;到这的时候我试了一下，但是班长突然打电话然我去取自行车，我就去了~后面的就没有后面了。
+后面的安排 最近项目差不多算是完成了，后面的计划可能要调整一下状态，把RAC再看看，想看看动画，然后，继续开发下一个项目了~">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/posts/2015-9-8-mac-aircrack/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/2015-9-8-mac-aircrack/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Mac安装Aircrack-ng" />
+<meta property="og:description" content="9.4号中午去外面吃完冒菜回来都快三点了，这个点尴尬的不行。于是就去工作室倒腾点东西。也不想写代码，就开始各种在mac下装软件。项目基本上暂时没有什么要特别忙的，我也不能总写，都写了慎哥就没得写了。今晚上就把之前做的东西来个小记。
+想到的是破译wifi，当然最终因为各种因素没破译成功。不过中间过程还是很享受的。下面开始。
+百度了一下。有一篇MACOS苹果系统下破解无线网WPA,WPA2密码。用到的主要工具是Aircrack。于是就开始倒腾了。
+安装macport 首先第一步要安装macport。macport据我理解，相当于homebrew，ubuntu下相当于apt-get install。根据官网来说，安装macport最简单的方法就是下载pkg文件直接安装，但是我在下载pkg安装过程中，会出现卡死的问题。google了半天没找到解决方法。于是就下载了源代码安装，这在官网上都有说明。前面什么安装xcode的command line tools那是装机必备我就不多说了。
+下载之后在官网上有说明，解压之后进入目录，进行./configure &amp;&amp; make &amp;&amp; sudo make install 之后需要添加环境变量，我没看懂官网的说明，自行google了一下。看到很多人的博客都写过这个问题，我在此就摘录一下。
+需要将/opt/local/bin和/opt/local/sbin添加到$PATH搜索路径中。然后编辑/etc/profile，这里需要超级用户。如果用vim的话需要wq！在profile里加入下面两句
+export PATH=/opt/local/bin:$PATH
+export PATH=/opt/local/sbin:$PATH
+然后就可以了，如果要立即生效，那么需要利用source命令source /etc/profile
+这样就可以用了，执行sudo port -v selfupdate更新。到这步会发现好像仿佛是被墙了。。。
+安装proxychains 然后我又陷入了难题，好不容易手动编译安装成功了。结果更新好像被墙了咋办。查查查，命令行下使用代理的方法。找到一个东西，叫做proxychains。搜这个用了好久，因为我用的是ss，ss支持的时socks5，而iterm支持http，这就麻烦了。后来在v2ex上发现hzlzh问了这个问题。我就安装这个了。
+安装proxychains4非常简单，直接用homebrew就可以了。brew install proxychains-ng 安装完毕要设置代理
+修改/usr/local/etc/proxychains.conf 最下面 [ProxyList] socks5 127.0.0.1 1080 测试proxychain能不能用，proxychains4 curl twitter.com会显示ok。我就不截图了。
+proxychain可以让它后面的命令行直接走代理的路线，而不用直接进行网络请求。 我刚刚用这个加上home cask装了macdown。还是很不错的。因为很多命令行是需要进行网络请求的。
+之后就可以proxychains4 sudo port -v selfupdate了。可能有点慢，不过我这次可以正常了。
+安装aircrack-ng 最后的最后，我们可以用sudo port install aircrack-ng就可以安装aircrack了。
+好了，剩下的就是按照那个博客说的来破解了&hellip;到这的时候我试了一下，但是班长突然打电话然我去取自行车，我就去了~后面的就没有后面了。
+后面的安排 最近项目差不多算是完成了，后面的计划可能要调整一下状态，把RAC再看看，想看看动画，然后，继续开发下一个项目了~" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2015-9-8-mac-aircrack/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-09-08T20:06:00+00:00" />
+<meta property="article:modified_time" content="2015-09-08T20:06:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="Mac安装Aircrack-ng"/>
+<meta name="twitter:description" content="9.4号中午去外面吃完冒菜回来都快三点了，这个点尴尬的不行。于是就去工作室倒腾点东西。也不想写代码，就开始各种在mac下装软件。项目基本上暂时没有什么要特别忙的，我也不能总写，都写了慎哥就没得写了。今晚上就把之前做的东西来个小记。
+想到的是破译wifi，当然最终因为各种因素没破译成功。不过中间过程还是很享受的。下面开始。
+百度了一下。有一篇MACOS苹果系统下破解无线网WPA,WPA2密码。用到的主要工具是Aircrack。于是就开始倒腾了。
+安装macport 首先第一步要安装macport。macport据我理解，相当于homebrew，ubuntu下相当于apt-get install。根据官网来说，安装macport最简单的方法就是下载pkg文件直接安装，但是我在下载pkg安装过程中，会出现卡死的问题。google了半天没找到解决方法。于是就下载了源代码安装，这在官网上都有说明。前面什么安装xcode的command line tools那是装机必备我就不多说了。
+下载之后在官网上有说明，解压之后进入目录，进行./configure &amp;&amp; make &amp;&amp; sudo make install 之后需要添加环境变量，我没看懂官网的说明，自行google了一下。看到很多人的博客都写过这个问题，我在此就摘录一下。
+需要将/opt/local/bin和/opt/local/sbin添加到$PATH搜索路径中。然后编辑/etc/profile，这里需要超级用户。如果用vim的话需要wq！在profile里加入下面两句
+export PATH=/opt/local/bin:$PATH
+export PATH=/opt/local/sbin:$PATH
+然后就可以了，如果要立即生效，那么需要利用source命令source /etc/profile
+这样就可以用了，执行sudo port -v selfupdate更新。到这步会发现好像仿佛是被墙了。。。
+安装proxychains 然后我又陷入了难题，好不容易手动编译安装成功了。结果更新好像被墙了咋办。查查查，命令行下使用代理的方法。找到一个东西，叫做proxychains。搜这个用了好久，因为我用的是ss，ss支持的时socks5，而iterm支持http，这就麻烦了。后来在v2ex上发现hzlzh问了这个问题。我就安装这个了。
+安装proxychains4非常简单，直接用homebrew就可以了。brew install proxychains-ng 安装完毕要设置代理
+修改/usr/local/etc/proxychains.conf 最下面 [ProxyList] socks5 127.0.0.1 1080 测试proxychain能不能用，proxychains4 curl twitter.com会显示ok。我就不截图了。
+proxychain可以让它后面的命令行直接走代理的路线，而不用直接进行网络请求。 我刚刚用这个加上home cask装了macdown。还是很不错的。因为很多命令行是需要进行网络请求的。
+之后就可以proxychains4 sudo port -v selfupdate了。可能有点慢，不过我这次可以正常了。
+安装aircrack-ng 最后的最后，我们可以用sudo port install aircrack-ng就可以安装aircrack了。
+好了，剩下的就是按照那个博客说的来破解了&hellip;到这的时候我试了一下，但是班长突然打电话然我去取自行车，我就去了~后面的就没有后面了。
+后面的安排 最近项目差不多算是完成了，后面的计划可能要调整一下状态，把RAC再看看，想看看动画，然后，继续开发下一个项目了~"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Mac安装Aircrack-ng",
+      "item": "http://localhost:1313/posts/2015-9-8-mac-aircrack/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Mac安装Aircrack-ng",
+  "name": "Mac安装Aircrack-ng",
+  "description": "9.4号中午去外面吃完冒菜回来都快三点了，这个点尴尬的不行。于是就去工作室倒腾点东西。也不想写代码，就开始各种在mac下装软件。项目基本上暂时没有什么要特别忙的，我也不能总写，都写了慎哥就没得写了。今晚上就把之前做的东西来个小记。\n想到的是破译wifi，当然最终因为各种因素没破译成功。不过中间过程还是很享受的。下面开始。\n百度了一下。有一篇MACOS苹果系统下破解无线网WPA,WPA2密码。用到的主要工具是Aircrack。于是就开始倒腾了。\n安装macport 首先第一步要安装macport。macport据我理解，相当于homebrew，ubuntu下相当于apt-get install。根据官网来说，安装macport最简单的方法就是下载pkg文件直接安装，但是我在下载pkg安装过程中，会出现卡死的问题。google了半天没找到解决方法。于是就下载了源代码安装，这在官网上都有说明。前面什么安装xcode的command line tools那是装机必备我就不多说了。\n下载之后在官网上有说明，解压之后进入目录，进行./configure \u0026amp;\u0026amp; make \u0026amp;\u0026amp; sudo make install 之后需要添加环境变量，我没看懂官网的说明，自行google了一下。看到很多人的博客都写过这个问题，我在此就摘录一下。\n需要将/opt/local/bin和/opt/local/sbin添加到$PATH搜索路径中。然后编辑/etc/profile，这里需要超级用户。如果用vim的话需要wq！在profile里加入下面两句\nexport PATH=/opt/local/bin:$PATH\nexport PATH=/opt/local/sbin:$PATH\n然后就可以了，如果要立即生效，那么需要利用source命令source /etc/profile\n这样就可以用了，执行sudo port -v selfupdate更新。到这步会发现好像仿佛是被墙了。。。\n安装proxychains 然后我又陷入了难题，好不容易手动编译安装成功了。结果更新好像被墙了咋办。查查查，命令行下使用代理的方法。找到一个东西，叫做proxychains。搜这个用了好久，因为我用的是ss，ss支持的时socks5，而iterm支持http，这就麻烦了。后来在v2ex上发现hzlzh问了这个问题。我就安装这个了。\n安装proxychains4非常简单，直接用homebrew就可以了。brew install proxychains-ng 安装完毕要设置代理\n修改/usr/local/etc/proxychains.conf 最下面 [ProxyList] socks5 127.0.0.1 1080 测试proxychain能不能用，proxychains4 curl twitter.com会显示ok。我就不截图了。\nproxychain可以让它后面的命令行直接走代理的路线，而不用直接进行网络请求。 我刚刚用这个加上home cask装了macdown。还是很不错的。因为很多命令行是需要进行网络请求的。\n之后就可以proxychains4 sudo port -v selfupdate了。可能有点慢，不过我这次可以正常了。\n安装aircrack-ng 最后的最后，我们可以用sudo port install aircrack-ng就可以安装aircrack了。\n好了，剩下的就是按照那个博客说的来破解了\u0026hellip;到这的时候我试了一下，但是班长突然打电话然我去取自行车，我就去了~后面的就没有后面了。\n后面的安排 最近项目差不多算是完成了，后面的计划可能要调整一下状态，把RAC再看看，想看看动画，然后，继续开发下一个项目了~",
+  "keywords": [
+    
+  ],
+  "articleBody": "9.4号中午去外面吃完冒菜回来都快三点了，这个点尴尬的不行。于是就去工作室倒腾点东西。也不想写代码，就开始各种在mac下装软件。项目基本上暂时没有什么要特别忙的，我也不能总写，都写了慎哥就没得写了。今晚上就把之前做的东西来个小记。\n想到的是破译wifi，当然最终因为各种因素没破译成功。不过中间过程还是很享受的。下面开始。\n百度了一下。有一篇MACOS苹果系统下破解无线网WPA,WPA2密码。用到的主要工具是Aircrack。于是就开始倒腾了。\n安装macport 首先第一步要安装macport。macport据我理解，相当于homebrew，ubuntu下相当于apt-get install。根据官网来说，安装macport最简单的方法就是下载pkg文件直接安装，但是我在下载pkg安装过程中，会出现卡死的问题。google了半天没找到解决方法。于是就下载了源代码安装，这在官网上都有说明。前面什么安装xcode的command line tools那是装机必备我就不多说了。\n下载之后在官网上有说明，解压之后进入目录，进行./configure \u0026\u0026 make \u0026\u0026 sudo make install 之后需要添加环境变量，我没看懂官网的说明，自行google了一下。看到很多人的博客都写过这个问题，我在此就摘录一下。\n需要将/opt/local/bin和/opt/local/sbin添加到$PATH搜索路径中。然后编辑/etc/profile，这里需要超级用户。如果用vim的话需要wq！在profile里加入下面两句\nexport PATH=/opt/local/bin:$PATH\nexport PATH=/opt/local/sbin:$PATH\n然后就可以了，如果要立即生效，那么需要利用source命令source /etc/profile\n这样就可以用了，执行sudo port -v selfupdate更新。到这步会发现好像仿佛是被墙了。。。\n安装proxychains 然后我又陷入了难题，好不容易手动编译安装成功了。结果更新好像被墙了咋办。查查查，命令行下使用代理的方法。找到一个东西，叫做proxychains。搜这个用了好久，因为我用的是ss，ss支持的时socks5，而iterm支持http，这就麻烦了。后来在v2ex上发现hzlzh问了这个问题。我就安装这个了。\n安装proxychains4非常简单，直接用homebrew就可以了。brew install proxychains-ng 安装完毕要设置代理\n修改/usr/local/etc/proxychains.conf 最下面 [ProxyList] socks5 127.0.0.1 1080 测试proxychain能不能用，proxychains4 curl twitter.com会显示ok。我就不截图了。\nproxychain可以让它后面的命令行直接走代理的路线，而不用直接进行网络请求。 我刚刚用这个加上home cask装了macdown。还是很不错的。因为很多命令行是需要进行网络请求的。\n之后就可以proxychains4 sudo port -v selfupdate了。可能有点慢，不过我这次可以正常了。\n安装aircrack-ng 最后的最后，我们可以用sudo port install aircrack-ng就可以安装aircrack了。\n好了，剩下的就是按照那个博客说的来破解了…到这的时候我试了一下，但是班长突然打电话然我去取自行车，我就去了~后面的就没有后面了。\n后面的安排 最近项目差不多算是完成了，后面的计划可能要调整一下状态，把RAC再看看，想看看动画，然后，继续开发下一个项目了~\n",
+  "wordCount" : "58",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2015-09-08T20:06:00Z",
+  "dateModified": "2015-09-08T20:06:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2015-9-8-mac-aircrack/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PaperMod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="PaperMod (Alt + H)">PaperMod</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="Feed">
+                    <span>Feed</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="About">
+                    <span>About</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Mac安装Aircrack-ng
+    </h1>
+    <div class="post-meta"><span title='2015-09-08 20:06:00 +0000 UTC'>九月 8, 2015</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%ae%89%e8%a3%85macport" aria-label="安装macport">安装macport</a></li>
+                <li>
+                    <a href="#%e5%ae%89%e8%a3%85proxychains" aria-label="安装proxychains">安装proxychains</a></li>
+                <li>
+                    <a href="#%e5%ae%89%e8%a3%85aircrack-ng" aria-label="安装aircrack-ng">安装aircrack-ng</a></li>
+                <li>
+                    <a href="#%e5%90%8e%e9%9d%a2%e7%9a%84%e5%ae%89%e6%8e%92" aria-label="后面的安排">后面的安排</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>9.4号中午去外面吃完冒菜回来都快三点了，这个点尴尬的不行。于是就去工作室倒腾点东西。也不想写代码，就开始各种在mac下装软件。项目基本上暂时没有什么要特别忙的，我也不能总写，都写了慎哥就没得写了。今晚上就把之前做的东西来个小记。</p>
+<p>想到的是破译wifi，当然最终因为各种因素没破译成功。不过中间过程还是很享受的。下面开始。</p>
+<p>百度了一下。有一篇<a href="http://www.yyker.com/20131109457.html]">MACOS苹果系统下破解无线网WPA,WPA2密码</a>。用到的主要工具是Aircrack。于是就开始倒腾了。</p>
+<h2 id="安装macport">安装macport<a hidden class="anchor" aria-hidden="true" href="#安装macport">#</a></h2>
+<hr>
+<p>首先第一步要安装<a href="https://www.macports.org/">macport</a>。macport据我理解，相当于homebrew，ubuntu下相当于apt-get install。根据官网来说，安装macport最简单的方法就是下载pkg文件直接安装，但是我在下载pkg安装过程中，会出现卡死的问题。google了半天没找到解决方法。于是就下载了源代码安装，这在官网上都有说明。前面什么安装xcode的command line tools那是装机必备我就不多说了。</p>
+<p>下载之后在官网上有说明，解压之后进入目录，进行<code>./configure &amp;&amp; make &amp;&amp; sudo make install</code>
+之后需要添加环境变量，我没看懂官网的说明，自行google了一下。看到很多人的博客都写过这个问题，我在此就摘录一下。</p>
+<p>需要将/opt/local/bin和/opt/local/sbin添加到$PATH搜索路径中。然后编辑/etc/profile，这里需要超级用户。如果用vim的话需要wq！在profile里加入下面两句</p>
+<p><code>export PATH=/opt/local/bin:$PATH</code></p>
+<p><code>export PATH=/opt/local/sbin:$PATH</code></p>
+<p>然后就可以了，如果要立即生效，那么需要利用source命令<code>source /etc/profile</code></p>
+<p>这样就可以用了，执行<code>sudo port -v selfupdate</code>更新。到这步会发现好像仿佛是被墙了。。。</p>
+<h2 id="安装proxychains">安装proxychains<a hidden class="anchor" aria-hidden="true" href="#安装proxychains">#</a></h2>
+<hr>
+<p>然后我又陷入了难题，好不容易手动编译安装成功了。结果更新好像被墙了咋办。查查查，命令行下使用代理的方法。找到一个东西，叫做<a href="https://github.com/rofl0r/proxychains-ng">proxychains</a>。搜这个用了好久，因为我用的是ss，ss支持的时socks5，而iterm支持http，这就麻烦了。后来在v2ex上发现hzlzh问了这个问题。我就安装这个了。</p>
+<p>安装proxychains4非常简单，直接用homebrew就可以了。<code>brew install proxychains-ng</code>
+安装完毕要设置代理</p>
+<p>修改<code>/usr/local/etc/proxychains.conf</code> 最下面
+<code>[ProxyList] socks5  127.0.0.1 1080</code>
+测试proxychain能不能用，<code>proxychains4 curl twitter.com</code>会显示ok。我就不截图了。</p>
+<p>proxychain可以让它后面的命令行直接走代理的路线，而不用直接进行网络请求。
+我刚刚用这个加上home cask装了macdown。还是很不错的。因为很多命令行是需要进行网络请求的。</p>
+<p>之后就可以<code>proxychains4 sudo port -v selfupdate</code>了。可能有点慢，不过我这次可以正常了。</p>
+<h2 id="安装aircrack-ng">安装aircrack-ng<a hidden class="anchor" aria-hidden="true" href="#安装aircrack-ng">#</a></h2>
+<hr>
+<p>最后的最后，我们可以用<code>sudo port install aircrack-ng</code>就可以安装aircrack了。</p>
+<p>好了，剩下的就是按照那个博客说的来破解了&hellip;到这的时候我试了一下，但是班长突然打电话然我去取自行车，我就去了~后面的就没有后面了。</p>
+<h2 id="后面的安排">后面的安排<a hidden class="anchor" aria-hidden="true" href="#后面的安排">#</a></h2>
+<p>最近项目差不多算是完成了，后面的计划可能要调整一下状态，把RAC再看看，想看看动画，然后，继续开发下一个项目了~</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/mac-eicaptain-upgrade-problem/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>Mac升级10.11 EI Captain 填坑</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/my-understand-about-block/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Block 我所理解的回调</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

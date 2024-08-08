@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Linux | 迪迪咕咕</title>
+<meta name="keywords" content="">
+<meta name="description" content="DiDi&#39;s Website - https://www.dididigu.com/">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/categories/linux/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/categories/linux/index.xml">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/categories/linux/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Linux" />
+<meta property="og:description" content="DiDi&#39;s Website - https://www.dididigu.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://localhost:1313/categories/linux/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="Linux"/>
+<meta name="twitter:description" content="DiDi&#39;s Website - https://www.dididigu.com/"/>
+
+</head>
+
+<body class="list" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="迪迪咕咕 (Alt + H)">迪迪咕咕</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="订阅">
+                    <span>订阅</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="关于">
+                    <span>关于</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/categories/">Categories</a></div>
+  <h1>
+    Linux
+    <a href="/categories/linux/index.xml" title="RSS" aria-label="RSS">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" height="23">
+        <path d="M4 11a9 9 0 0 1 9 9" />
+        <path d="M4 4a16 16 0 0 1 16 16" />
+        <circle cx="5" cy="19" r="1" />
+      </svg>
+    </a>
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">浅谈解决 Instagram 推送失效的问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>最近由于某些需要。需要关注 Instagram 的博主，ins 本身是提供了推送服务的，但是由于各种原因，经常收不到推送，这就需要自己采取爬虫的形式。
+推送服务 推送服务有很多选择，除了国内的平台都可以。我在这里采取了比较灵活的 telegram bot。tg 是一款很伟大的产品，很简单的方式就可以对接机器人自动发布消息。
+我采用了 telegram-bot-ruby 这个 gem，来将 ruby 脚本和 tg 联系起来。
+虽然我更推荐你们使用 python 或者 php，在 GitHub 上有很多和 ins 相关的 python 的库，甚至可以调用到 ins 私有的 api 接口。由于我最近的技术栈都是 ruby 所以就采用了 ruby。
+爬虫获取 ins 自身的网络请求是 api 分离的，这意味着如果爬虫爬取到了 json 接口之后可以直接获取 json 的数据。只需要在所有的 url 后面加上 ?__a=1 即可获得 json 格式的数据。
+爬虫方案 我采取的方案是每 5s 请求一次。对比前一次和这一次的区别。这里就不详细叙述了。
+网络请求优化及异常处理 由于我的程序一开始写的不够规范，导致重复请求过多。而 instagram 对于请求频率过于高的 ip 会返回 429 错误。429 是请求次数过多。
+而在请求错误过多的情况下，会导致异常处理。这里我采取 try catch 的方案。
+在逐步优化后我的爬虫现在平均每分钟运行 12 次。已经处于不会被封的范围内了。
+小彩蛋 graphql 已经被 Instagram 采用。突然有一天的接口全部是 graphql 了。导致的就是需要重新修改 json 的解析。现在的解析还是有点复杂的。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-04-09 00:00:00 +0000 UTC'>四月 9, 2018</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to 浅谈解决 Instagram 推送失效的问题" href="http://localhost:1313/posts/fixed-instagram-push-problem/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">OpenWrt小记
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>慎哥开博客了，博客做的很好看！欢迎访问~cbsfly 请合理利用互联网，不要对国家安全造成任何威胁！
+因为要做比赛所以倒腾了OpenWrt倒腾了不到一天，做个小的记录。
+前天上网买的路由器昨天就到货了，淘宝，33，硬改了的。16M闪存64内存好像。
+昨天和店家交流了一下，店家人真的不错。然后我就开始把店家装好的操作系统重装，这次买的路由器是可以刷官方原版的，我就下载了一个最新版的chaos_calmer。
+什么是OpenWrt，简单的说，就是在你的路由器里面装个Linux操作系统。装上Linux的操作系统，是吧，你们懂得。基本上啥都能干了。
+如果你家用的是极路由或者是小米路由，你要清楚，那都是深度定制的OpenWrt…
+我倒腾了如下几个东西。一，中继。二，jump gfw。三，8021x校园网拨号。具体如下。
+预备 首先你得有个硬件能刷操作系统的路由器。我建议某宝买硬改的，很便宜。 在ubuntu中，操作系统更新和安装软件用的是apt-get，在OpenWrt里用的是opkg(我觉得是OpenWrt Package的缩写) 第二步可以联网进行操作，也可以本地安装。当然我一直觉得联网的好，不用编译配置啥的了… 刚刷完操作系统的时候路由器的无线网默认是关闭的，需要登录打开。 因为是操作系统，所以我们可以通过ssh root@192.168.1.1来对操作系统进行操作。 刷完路由器的那个web界面叫luci。下文会用到。 没找到中文语言包，所以下文全是英文。 中继 OpenWrt可以作为无线中继。在此感谢班长和姜导提供该技能包。
+所谓无线中继，就是你用OpweWrt连接无线网，然后再把这个无线网的信号扩展了。这样就解决了一个路由器信号不够强的问题。其次，前文说道，OpenWrt是个Linux的操作系统，我们安装软件需要让路由器联网。
+让路由器联网有两种方式，一种直接插网线到lan口。事实证明这样我就找不到路由器的ip了…
+在咨询了班长之后我选择了无线中继的方式。
+这有篇百度文库的教程写得很详细了我就不对步骤进行赘述了（百度文库还能有这种好材料…）因为我刷的是最新的cc版本路由器，所以界面不太一样，但是没啥差别。我只强调一个问题。
+在第一步里，一定要设置lan口的ip，不能在同一个网段。我设置成192.168.10.1，设置完成之后，OpenWrt路由器会通过上级路由器获得一个ip，通过OpenWrt这个路由连接的设备，ssh的ip地址变成192.168.10.1，web访问也变成192.168.10.1。
+全部设置完就可以通过OpenWrt路由器上网了，此时ssh到OpenWrt，发现已经可以ping了。
+jump gfw 前几天发朋友圈问了个敏感问题，没想到那么多人回复…
+我现在是要入党的人，但是我又是程序员，有时候确实不得不那什么。
+所以在此也说一下，你们有需求可以私聊我，我很乐意帮忙，具体手机和电脑怎么做我就不写了。路由器也是因为要做比赛才倒腾的。
+我用的是shadowsocks的方式，也可以用vpn，我们工作室的极路由提供了vpn的接口，表示vpn太难搭建。
+openwrt-shadowsocksGithub地址。
+首先下载预编译的ipk到本地安装。在shadowsocks-libev找到对应的机型。我的是ar71xx，然后找到那个下载次数最多的shadowsocks-libev-spec版本。这个是针对OpenWrt的优化版本。
+下载完毕之后，通过scp命令上传到OpenWrt上，先opkg update，这一步是更新源，和我们ubuntu的update一样。
+接着
+opkg install shadowsocks-libev-spec_2.4.3-1_ar71xx.ipk
+安装，他会自动的把需要的依赖包一并下载了。到这就完成了对ss的安装。
+在shadowsocks-libev-spec从v1.5.2开始可以使用luci配置界面。所以我就找了一下luci的package，所有的package都在packages列表。luci-app-shadowsocks-spec_1.3.7-1_all.ipk我的叫这个，我就下载了然后继续scp上传，然后
+opkg install luci-app-shadowsocks-spec_1.3.7-1_all.ipk
+之后登陆web界面，这时候就有可视化的配置界面了。
+输入你的ss账号密码就可以了。但是需要在最下面添加ignore list，让国内的网站直接连接网络，不然的话像我，就没法看nba直播了，很多视频优酷什么的也不能看了…
+这一步其实是关键的，新建一个后缀为list的文件，然后输入这串命令
+wget -O- &#39;http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest&#39; | awk -F\| &#39;/CN\|ipv4/ { printf(&#34;%s/%d\n&#34;, $4, 32-log($5)/log(2)) }&#39; &gt; /dev/ignore.list
+然后把ignore的路径设置到你配置的那个文件就可以了。
+这时候在开腾讯nba就能看直播了…我简直，为了看球什么都干得出来。然后再连接路由器就可以Jump gfw了~
+8021x校园网拨号 不过我们不用更换源，首先我们需要
+opkg remove wpad-mini...</p>
+  </div>
+  <footer class="entry-footer"><span title='2016-01-21 00:00:00 +0000 UTC'>一月 21, 2016</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to OpenWrt小记" href="http://localhost:1313/posts/openwrt-notes/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+</body>
+
+</html>

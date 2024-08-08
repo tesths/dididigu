@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Jekyll on PaperMod</title>
+    <link>http://localhost:1313/categories/jekyll/</link>
+    <description>Recent content in Jekyll on PaperMod</description>
+    <image>
+      <title>PaperMod</title>
+      <url>http://localhost:1313/images/papermod-cover.png</url>
+      <link>http://localhost:1313/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.131.0</generator>
+    <language>zh</language>
+    <copyright>DiDi&amp;rsquo;s Website</copyright>
+    <lastBuildDate>Sun, 08 Feb 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/jekyll/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jekyll基本实现写博客功能</title>
+      <link>http://localhost:1313/posts/2015-2-8-finish-basic-jekyll/</link>
+      <pubDate>Sun, 08 Feb 2015 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2015-2-8-finish-basic-jekyll/</guid>
+      <description>今天又研究了一天jekyll。 现在已经实现这种效果了。
+页面部分我使用的就是jekyll本身的效果没有任何美化的过程。
+大概总结一下有几点我觉得比较重要的。
+1.git的使用。 因为我全程基本上都是在linux下进行操作，所以git用的是全部的命令行。 至于git命令行的使用我还是没有太明白，我觉得多上传几次代码应该就会慢慢熟悉，到时候大概我会将git的基本命令写一个博客出来，还希望到时候有人来访问。
+2.前端知识 因为对前端接触较少，所以可能再代码方面是十分不熟悉，所以也只能用原生的模板。 实在是太丑。
+3.Markdown 整个jekyll的文章发布是用的Markdown。 我使用了github推出的编辑器atom。 讲句实在话我没觉得atom哪里好用，但是它可以实时预览你的Markdown文件。 因为我想早点发文章出去，所以Markdown的语法基本上没怎么熟悉就直接上了，看上去肯定不美观。但是Markdown确实给我的感觉很好，不复杂，但是很舒服。而且语法上也没有很难。
+4.本地jekyll环境 本地jekyll环境的搭建我专门写了一篇博客。一开始觉得没有什么用。后来才发现重要性。 因为在调试的时候需要本地的jekyll环境。命令是jekyll server，可以在本地看一下效果。 这样不用每次修改代码之后都上传预览。
+##下面我将对我从hello world改动到现在这个样子进行一个阐述。
+这是原来的样子。
+首先我打开的是_config.yml
+Title对应了博客的名称。 Email就对应了左下方的email。 我将twitter那一行删了…后面我再考虑要不要换成我的微博啥的。 然后description就是右下角那一串字。
+全部修改完毕就会得到我的首页的样子。
+还有右上角的About。 我们打开 about.md，这是Markdown文件了。 修改title会修改about显示的文字，修改里面的内容就可以点击About跳转进去了。
+还有最后就是我发布的那几篇文章。和posts这个文字的修改。 Posts那个文字修改是在index.html里修改。
+发布的所有文章都放在_posts文件夹里。 Jekyll提供了一个例子可以研究一下。 发布就会在首页显示。 我连续发布了三篇所以就显示了~
+怎么发布就需要Markdown的语法了，可以把我博客从github上download下来看看。 不要问我看的谁的我看的迪哥的。
+总之大概就是这样。 后期计划还是要把Markdown的语法研究一下，不然文章看上去太丑了。 还有就是研究一下怎么设置可以评论和查看访问记录。 最后就是美化我的jekyll，不管是修改别人的还是我自己设计。
+总之，前面几篇可能水分有点大，但是这一篇确实可以迅速搭建一个在github上的博客。
+另附我博客的github地址和迪哥博客的github的地址。
+我的github.com/judi0713/judi0713.github.com 迪哥的github.com/icindy/icindy.github.io</description>
+    </item>
+    <item>
+      <title>不利用Jekyllbootstrap上线Jekyll</title>
+      <link>http://localhost:1313/posts/2015-2-8-use-jekyll/</link>
+      <pubDate>Sun, 08 Feb 2015 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2015-2-8-use-jekyll/</guid>
+      <description>因为实在是觉得jekyllbootstrap太丑。而且确实想尝试一下原生的jekyll感觉，于是今天早上重新开始了jekyll的尝试。
+首先是新建一个我的jekyll博客。
+然后我们将建好的git仓库clone到本地
+我不知道怎么将myblog设置为我的git根目录来上传。 然后就利用了笨办法，讲myblog里的所有文件移动到judi0713这个文件夹里。 命令是
+顺便提一下， mv这个命令可以重新命名，重命名的方式就是mv filename1 filename2 mv可以移动文件，批量移动文件的方式就是用*号。 比如我这里使用的，就是可以将myblog的所有文件全部移动，相应的，如果是*.*那么会将myblog的所有文件移动，保留文件夹。
+现在我们已经将jekyll创建的文件全部移动到了git仓库里。 下面就是要将仓库里的文件全部上传了。
+就是这三条。具体每一条什么含义我大概明白，但是从昨晚上到今天早上我已经被git这几条命令搞的有点晕了。 我全部理清楚之后会专门写一个和git命令行有关的blog的。
+打开judi0713.github.io已经可以访问了。</description>
+    </item>
+    <item>
+      <title>利用Jekyllbootstrap开始使用Jekyll</title>
+      <link>http://localhost:1313/posts/2015-2-7-use-jekyllbootstrap/</link>
+      <pubDate>Sat, 07 Feb 2015 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2015-2-7-use-jekyllbootstrap/</guid>
+      <description>上次在ubuntu下配置好了jekyll的环境不知道有啥用，都准备放弃了。今天下午睡了一觉觉得不能就这样不了了之。还是需要一个地方记录一下技术路上的点滴。 所以就继续开始我的jekyll之路了。
+提醒！！ 建议先看完整篇博客之后再操作！！！！ 如果你对照做错了出现问题别怪我….你可以百度，或者google。我已经为了写博客换了两台ubuntu已经很努力了。
+找到了一个网站jekyllbootstrap.com Bootstrap是Twitter开源的前端框架。具体怎么用我还在研究。不要嘲笑一个不会前端的人在倒腾他的博客。 总之点击去，然后
+我点击了左下角的按钮。 然后输入了我的github账号。 按照它的步骤，第一步是创建一个repository
+不要问我怎么在github上怎么创建repository，右上角&amp;quot;+&amp;quot;。不截图，自行研究…虽然我也是第一次。 然后就是第二步了。
+我打开我的ubuntu（天，为了写博客我开了两个ubuntu！）还好加了内存条。 依次输入命令。（不要忘记在ubuntu下安装git apt-get install git就行了） 别傻不拉几的输入，用复制的，终端下复制方法自行百度。
+Ok，已经将jekyllbootstrap clone到本地了 执行第二步和第三步！
+一切正常，第四步！ 报错了！！
+忽略我又换了一台设备因为新设备报错又换了… 反正就是这个publickey的错误。 这个无比蛋疼的错误…百度了半天，在csdn上发现问题所在了。
+blog.sina.com.cn/s/blog_6b706e15010199p1.html(附上原帖地址)问题原因就是需为github账号添加ssh key。 对照着这篇博客添加了ssh 之后，就ok了。
+Ok了。我的天，累死了。主要就是ssh key那一步。 我现在用的是jekyllbootstrap的框架，怎么自己开始一个博客还没太明白。 judi0713.github.io输入之后 可以看到界面了！
+剩下的基本上应该就是前端知识了。到此为止已经可以访问了。 然后可以利用上一篇文章配置的jekyll环境在本地进行调试然后上线了。
+下一步我将研究如何不使用jekyllbootstrap的框架开始使用jekyll。</description>
+    </item>
+    <item>
+      <title>关于在ubuntu下搭建github的Jekyll环境</title>
+      <link>http://localhost:1313/posts/2015-2-4-ubuntu-jekyll-environment/</link>
+      <pubDate>Wed, 04 Feb 2015 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2015-2-4-ubuntu-jekyll-environment/</guid>
+      <description>Desc Text.</description>
+    </item>
+  </channel>
+</rss>

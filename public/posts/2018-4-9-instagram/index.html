@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>浅谈解决 Instagram 推送失效的问题 | PaperMod</title>
+<meta name="keywords" content="">
+<meta name="description" content="最近由于某些需要。需要关注 Instagram 的博主，ins 本身是提供了推送服务的，但是由于各种原因，经常收不到推送，这就需要自己采取爬虫的形式。
+推送服务 推送服务有很多选择，除了国内的平台都可以。我在这里采取了比较灵活的 telegram bot。tg 是一款很伟大的产品，很简单的方式就可以对接机器人自动发布消息。
+我采用了 telegram-bot-ruby 这个 gem，来将 ruby 脚本和 tg 联系起来。
+虽然我更推荐你们使用 python 或者 php，在 GitHub 上有很多和 ins 相关的 python 的库，甚至可以调用到 ins 私有的 api 接口。由于我最近的技术栈都是 ruby 所以就采用了 ruby。
+爬虫获取 ins 自身的网络请求是 api 分离的，这意味着如果爬虫爬取到了 json 接口之后可以直接获取 json 的数据。只需要在所有的 url 后面加上 ?__a=1 即可获得 json 格式的数据。
+爬虫方案 我采取的方案是每 5s 请求一次。对比前一次和这一次的区别。这里就不详细叙述了。
+网络请求优化及异常处理 由于我的程序一开始写的不够规范，导致重复请求过多。而 instagram 对于请求频率过于高的 ip 会返回 429 错误。429 是请求次数过多。
+而在请求错误过多的情况下，会导致异常处理。这里我采取 try catch 的方案。
+在逐步优化后我的爬虫现在平均每分钟运行 12 次。已经处于不会被封的范围内了。
+小彩蛋 graphql 已经被 Instagram 采用。突然有一天的接口全部是 graphql 了。导致的就是需要重新修改 json 的解析。现在的解析还是有点复杂的。">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/posts/2018-4-9-instagram/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/2018-4-9-instagram/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="浅谈解决 Instagram 推送失效的问题" />
+<meta property="og:description" content="最近由于某些需要。需要关注 Instagram 的博主，ins 本身是提供了推送服务的，但是由于各种原因，经常收不到推送，这就需要自己采取爬虫的形式。
+推送服务 推送服务有很多选择，除了国内的平台都可以。我在这里采取了比较灵活的 telegram bot。tg 是一款很伟大的产品，很简单的方式就可以对接机器人自动发布消息。
+我采用了 telegram-bot-ruby 这个 gem，来将 ruby 脚本和 tg 联系起来。
+虽然我更推荐你们使用 python 或者 php，在 GitHub 上有很多和 ins 相关的 python 的库，甚至可以调用到 ins 私有的 api 接口。由于我最近的技术栈都是 ruby 所以就采用了 ruby。
+爬虫获取 ins 自身的网络请求是 api 分离的，这意味着如果爬虫爬取到了 json 接口之后可以直接获取 json 的数据。只需要在所有的 url 后面加上 ?__a=1 即可获得 json 格式的数据。
+爬虫方案 我采取的方案是每 5s 请求一次。对比前一次和这一次的区别。这里就不详细叙述了。
+网络请求优化及异常处理 由于我的程序一开始写的不够规范，导致重复请求过多。而 instagram 对于请求频率过于高的 ip 会返回 429 错误。429 是请求次数过多。
+而在请求错误过多的情况下，会导致异常处理。这里我采取 try catch 的方案。
+在逐步优化后我的爬虫现在平均每分钟运行 12 次。已经处于不会被封的范围内了。
+小彩蛋 graphql 已经被 Instagram 采用。突然有一天的接口全部是 graphql 了。导致的就是需要重新修改 json 的解析。现在的解析还是有点复杂的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2018-4-9-instagram/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-04-09T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="浅谈解决 Instagram 推送失效的问题"/>
+<meta name="twitter:description" content="最近由于某些需要。需要关注 Instagram 的博主，ins 本身是提供了推送服务的，但是由于各种原因，经常收不到推送，这就需要自己采取爬虫的形式。
+推送服务 推送服务有很多选择，除了国内的平台都可以。我在这里采取了比较灵活的 telegram bot。tg 是一款很伟大的产品，很简单的方式就可以对接机器人自动发布消息。
+我采用了 telegram-bot-ruby 这个 gem，来将 ruby 脚本和 tg 联系起来。
+虽然我更推荐你们使用 python 或者 php，在 GitHub 上有很多和 ins 相关的 python 的库，甚至可以调用到 ins 私有的 api 接口。由于我最近的技术栈都是 ruby 所以就采用了 ruby。
+爬虫获取 ins 自身的网络请求是 api 分离的，这意味着如果爬虫爬取到了 json 接口之后可以直接获取 json 的数据。只需要在所有的 url 后面加上 ?__a=1 即可获得 json 格式的数据。
+爬虫方案 我采取的方案是每 5s 请求一次。对比前一次和这一次的区别。这里就不详细叙述了。
+网络请求优化及异常处理 由于我的程序一开始写的不够规范，导致重复请求过多。而 instagram 对于请求频率过于高的 ip 会返回 429 错误。429 是请求次数过多。
+而在请求错误过多的情况下，会导致异常处理。这里我采取 try catch 的方案。
+在逐步优化后我的爬虫现在平均每分钟运行 12 次。已经处于不会被封的范围内了。
+小彩蛋 graphql 已经被 Instagram 采用。突然有一天的接口全部是 graphql 了。导致的就是需要重新修改 json 的解析。现在的解析还是有点复杂的。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "浅谈解决 Instagram 推送失效的问题",
+      "item": "http://localhost:1313/posts/2018-4-9-instagram/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "浅谈解决 Instagram 推送失效的问题",
+  "name": "浅谈解决 Instagram 推送失效的问题",
+  "description": "最近由于某些需要。需要关注 Instagram 的博主，ins 本身是提供了推送服务的，但是由于各种原因，经常收不到推送，这就需要自己采取爬虫的形式。\n推送服务 推送服务有很多选择，除了国内的平台都可以。我在这里采取了比较灵活的 telegram bot。tg 是一款很伟大的产品，很简单的方式就可以对接机器人自动发布消息。\n我采用了 telegram-bot-ruby 这个 gem，来将 ruby 脚本和 tg 联系起来。\n虽然我更推荐你们使用 python 或者 php，在 GitHub 上有很多和 ins 相关的 python 的库，甚至可以调用到 ins 私有的 api 接口。由于我最近的技术栈都是 ruby 所以就采用了 ruby。\n爬虫获取 ins 自身的网络请求是 api 分离的，这意味着如果爬虫爬取到了 json 接口之后可以直接获取 json 的数据。只需要在所有的 url 后面加上 ?__a=1 即可获得 json 格式的数据。\n爬虫方案 我采取的方案是每 5s 请求一次。对比前一次和这一次的区别。这里就不详细叙述了。\n网络请求优化及异常处理 由于我的程序一开始写的不够规范，导致重复请求过多。而 instagram 对于请求频率过于高的 ip 会返回 429 错误。429 是请求次数过多。\n而在请求错误过多的情况下，会导致异常处理。这里我采取 try catch 的方案。\n在逐步优化后我的爬虫现在平均每分钟运行 12 次。已经处于不会被封的范围内了。\n小彩蛋 graphql 已经被 Instagram 采用。突然有一天的接口全部是 graphql 了。导致的就是需要重新修改 json 的解析。现在的解析还是有点复杂的。",
+  "keywords": [
+    
+  ],
+  "articleBody": "最近由于某些需要。需要关注 Instagram 的博主，ins 本身是提供了推送服务的，但是由于各种原因，经常收不到推送，这就需要自己采取爬虫的形式。\n推送服务 推送服务有很多选择，除了国内的平台都可以。我在这里采取了比较灵活的 telegram bot。tg 是一款很伟大的产品，很简单的方式就可以对接机器人自动发布消息。\n我采用了 telegram-bot-ruby 这个 gem，来将 ruby 脚本和 tg 联系起来。\n虽然我更推荐你们使用 python 或者 php，在 GitHub 上有很多和 ins 相关的 python 的库，甚至可以调用到 ins 私有的 api 接口。由于我最近的技术栈都是 ruby 所以就采用了 ruby。\n爬虫获取 ins 自身的网络请求是 api 分离的，这意味着如果爬虫爬取到了 json 接口之后可以直接获取 json 的数据。只需要在所有的 url 后面加上 ?__a=1 即可获得 json 格式的数据。\n爬虫方案 我采取的方案是每 5s 请求一次。对比前一次和这一次的区别。这里就不详细叙述了。\n网络请求优化及异常处理 由于我的程序一开始写的不够规范，导致重复请求过多。而 instagram 对于请求频率过于高的 ip 会返回 429 错误。429 是请求次数过多。\n而在请求错误过多的情况下，会导致异常处理。这里我采取 try catch 的方案。\n在逐步优化后我的爬虫现在平均每分钟运行 12 次。已经处于不会被封的范围内了。\n小彩蛋 graphql 已经被 Instagram 采用。突然有一天的接口全部是 graphql 了。导致的就是需要重新修改 json 的解析。现在的解析还是有点复杂的。\n开源 我已经将代码开源在 https://gist.github.com/tesths/24b211eeae5acd5097e3efd647057acb。由于之前写的还有很多 try catch 的异常没有完全写进去，但是因为已经基本满足我的使用需要所以就没有继续完善。\n",
+  "wordCount" : "84",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2018-04-09T00:00:00Z",
+  "dateModified": "2018-04-09T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2018-4-9-instagram/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PaperMod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="PaperMod (Alt + H)">PaperMod</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="Feed">
+                    <span>Feed</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="About">
+                    <span>About</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      浅谈解决 Instagram 推送失效的问题
+    </h1>
+    <div class="post-meta"><span title='2018-04-09 00:00:00 +0000 UTC'>四月 9, 2018</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%8e%a8%e9%80%81%e6%9c%8d%e5%8a%a1" aria-label="推送服务">推送服务</a></li>
+                <li>
+                    <a href="#%e7%88%ac%e8%99%ab%e8%8e%b7%e5%8f%96" aria-label="爬虫获取">爬虫获取</a></li>
+                <li>
+                    <a href="#%e7%88%ac%e8%99%ab%e6%96%b9%e6%a1%88" aria-label="爬虫方案">爬虫方案</a></li>
+                <li>
+                    <a href="#%e7%bd%91%e7%bb%9c%e8%af%b7%e6%b1%82%e4%bc%98%e5%8c%96%e5%8f%8a%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86" aria-label="网络请求优化及异常处理">网络请求优化及异常处理</a></li>
+                <li>
+                    <a href="#%e5%b0%8f%e5%bd%a9%e8%9b%8b" aria-label="小彩蛋">小彩蛋</a></li>
+                <li>
+                    <a href="#%e5%bc%80%e6%ba%90" aria-label="开源">开源</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>最近由于某些需要。需要关注 Instagram 的博主，ins 本身是提供了推送服务的，但是由于各种原因，经常收不到推送，这就需要自己采取爬虫的形式。</p>
+<h2 id="推送服务">推送服务<a hidden class="anchor" aria-hidden="true" href="#推送服务">#</a></h2>
+<p>推送服务有很多选择，除了国内的平台都可以。我在这里采取了比较灵活的 telegram bot。tg 是一款很伟大的产品，很简单的方式就可以对接机器人自动发布消息。</p>
+<p>我采用了 <a href="https://github.com/atipugin/telegram-bot-ruby">telegram-bot-ruby</a> 这个 gem，来将 ruby 脚本和 tg 联系起来。</p>
+<p>虽然我更推荐你们使用 python 或者 php，在 GitHub 上有很多和 ins 相关的 python 的库，甚至可以调用到 ins 私有的 api 接口。由于我最近的技术栈都是 ruby 所以就采用了 ruby。</p>
+<h2 id="爬虫获取">爬虫获取<a hidden class="anchor" aria-hidden="true" href="#爬虫获取">#</a></h2>
+<p>ins 自身的网络请求是 api 分离的，这意味着如果爬虫爬取到了 json 接口之后可以直接获取 json 的数据。只需要在所有的 url 后面加上 ?__a=1 即可获得 json 格式的数据。</p>
+<h2 id="爬虫方案">爬虫方案<a hidden class="anchor" aria-hidden="true" href="#爬虫方案">#</a></h2>
+<p>我采取的方案是每 5s 请求一次。对比前一次和这一次的区别。这里就不详细叙述了。</p>
+<h2 id="网络请求优化及异常处理">网络请求优化及异常处理<a hidden class="anchor" aria-hidden="true" href="#网络请求优化及异常处理">#</a></h2>
+<p>由于我的程序一开始写的不够规范，导致重复请求过多。而 instagram 对于请求频率过于高的 ip 会返回 429 错误。429 是请求次数过多。</p>
+<p>而在请求错误过多的情况下，会导致异常处理。这里我采取 try catch 的方案。</p>
+<p>在逐步优化后我的爬虫现在平均每分钟运行 12 次。已经处于不会被封的范围内了。</p>
+<h2 id="小彩蛋">小彩蛋<a hidden class="anchor" aria-hidden="true" href="#小彩蛋">#</a></h2>
+<p>graphql 已经被 Instagram 采用。突然有一天的接口全部是 graphql 了。导致的就是需要重新修改 json 的解析。现在的解析还是有点复杂的。</p>
+<h2 id="开源">开源<a hidden class="anchor" aria-hidden="true" href="#开源">#</a></h2>
+<p>我已经将代码开源在 <a href="https://gist.github.com/tesths/24b211eeae5acd5097e3efd647057acb">https://gist.github.com/tesths/24b211eeae5acd5097e3efd647057acb</a>。由于之前写的还有很多 try catch 的异常没有完全写进去，但是因为已经基本满足我的使用需要所以就没有继续完善。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2018-5-9-ruby-memory/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>查找 ruby 内存泄漏</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/herohu-install-huginn/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Heroku 安装 Huginn</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

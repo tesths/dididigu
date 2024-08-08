@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>利用Jekyllbootstrap开始使用Jekyll | PaperMod</title>
+<meta name="keywords" content="">
+<meta name="description" content="上次在ubuntu下配置好了jekyll的环境不知道有啥用，都准备放弃了。今天下午睡了一觉觉得不能就这样不了了之。还是需要一个地方记录一下技术路上的点滴。 所以就继续开始我的jekyll之路了。
+提醒！！ 建议先看完整篇博客之后再操作！！！！ 如果你对照做错了出现问题别怪我….你可以百度，或者google。我已经为了写博客换了两台ubuntu已经很努力了。
+找到了一个网站jekyllbootstrap.com Bootstrap是Twitter开源的前端框架。具体怎么用我还在研究。不要嘲笑一个不会前端的人在倒腾他的博客。 总之点击去，然后
+我点击了左下角的按钮。 然后输入了我的github账号。 按照它的步骤，第一步是创建一个repository
+不要问我怎么在github上怎么创建repository，右上角&quot;&#43;&quot;。不截图，自行研究…虽然我也是第一次。 然后就是第二步了。
+我打开我的ubuntu（天，为了写博客我开了两个ubuntu！）还好加了内存条。 依次输入命令。（不要忘记在ubuntu下安装git apt-get install git就行了） 别傻不拉几的输入，用复制的，终端下复制方法自行百度。
+Ok，已经将jekyllbootstrap clone到本地了 执行第二步和第三步！
+一切正常，第四步！ 报错了！！
+忽略我又换了一台设备因为新设备报错又换了… 反正就是这个publickey的错误。 这个无比蛋疼的错误…百度了半天，在csdn上发现问题所在了。
+blog.sina.com.cn/s/blog_6b706e15010199p1.html(附上原帖地址)问题原因就是需为github账号添加ssh key。 对照着这篇博客添加了ssh 之后，就ok了。
+Ok了。我的天，累死了。主要就是ssh key那一步。 我现在用的是jekyllbootstrap的框架，怎么自己开始一个博客还没太明白。 judi0713.github.io输入之后 可以看到界面了！
+剩下的基本上应该就是前端知识了。到此为止已经可以访问了。 然后可以利用上一篇文章配置的jekyll环境在本地进行调试然后上线了。
+下一步我将研究如何不使用jekyllbootstrap的框架开始使用jekyll。">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/posts/use-jekyllbootstrap/2015-2-7-use-jekyllbootstrap/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/use-jekyllbootstrap/2015-2-7-use-jekyllbootstrap/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="利用Jekyllbootstrap开始使用Jekyll" />
+<meta property="og:description" content="上次在ubuntu下配置好了jekyll的环境不知道有啥用，都准备放弃了。今天下午睡了一觉觉得不能就这样不了了之。还是需要一个地方记录一下技术路上的点滴。 所以就继续开始我的jekyll之路了。
+提醒！！ 建议先看完整篇博客之后再操作！！！！ 如果你对照做错了出现问题别怪我….你可以百度，或者google。我已经为了写博客换了两台ubuntu已经很努力了。
+找到了一个网站jekyllbootstrap.com Bootstrap是Twitter开源的前端框架。具体怎么用我还在研究。不要嘲笑一个不会前端的人在倒腾他的博客。 总之点击去，然后
+我点击了左下角的按钮。 然后输入了我的github账号。 按照它的步骤，第一步是创建一个repository
+不要问我怎么在github上怎么创建repository，右上角&quot;&#43;&quot;。不截图，自行研究…虽然我也是第一次。 然后就是第二步了。
+我打开我的ubuntu（天，为了写博客我开了两个ubuntu！）还好加了内存条。 依次输入命令。（不要忘记在ubuntu下安装git apt-get install git就行了） 别傻不拉几的输入，用复制的，终端下复制方法自行百度。
+Ok，已经将jekyllbootstrap clone到本地了 执行第二步和第三步！
+一切正常，第四步！ 报错了！！
+忽略我又换了一台设备因为新设备报错又换了… 反正就是这个publickey的错误。 这个无比蛋疼的错误…百度了半天，在csdn上发现问题所在了。
+blog.sina.com.cn/s/blog_6b706e15010199p1.html(附上原帖地址)问题原因就是需为github账号添加ssh key。 对照着这篇博客添加了ssh 之后，就ok了。
+Ok了。我的天，累死了。主要就是ssh key那一步。 我现在用的是jekyllbootstrap的框架，怎么自己开始一个博客还没太明白。 judi0713.github.io输入之后 可以看到界面了！
+剩下的基本上应该就是前端知识了。到此为止已经可以访问了。 然后可以利用上一篇文章配置的jekyll环境在本地进行调试然后上线了。
+下一步我将研究如何不使用jekyllbootstrap的框架开始使用jekyll。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/use-jekyllbootstrap/2015-2-7-use-jekyllbootstrap/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-02-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2015-02-07T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="利用Jekyllbootstrap开始使用Jekyll"/>
+<meta name="twitter:description" content="上次在ubuntu下配置好了jekyll的环境不知道有啥用，都准备放弃了。今天下午睡了一觉觉得不能就这样不了了之。还是需要一个地方记录一下技术路上的点滴。 所以就继续开始我的jekyll之路了。
+提醒！！ 建议先看完整篇博客之后再操作！！！！ 如果你对照做错了出现问题别怪我….你可以百度，或者google。我已经为了写博客换了两台ubuntu已经很努力了。
+找到了一个网站jekyllbootstrap.com Bootstrap是Twitter开源的前端框架。具体怎么用我还在研究。不要嘲笑一个不会前端的人在倒腾他的博客。 总之点击去，然后
+我点击了左下角的按钮。 然后输入了我的github账号。 按照它的步骤，第一步是创建一个repository
+不要问我怎么在github上怎么创建repository，右上角&quot;&#43;&quot;。不截图，自行研究…虽然我也是第一次。 然后就是第二步了。
+我打开我的ubuntu（天，为了写博客我开了两个ubuntu！）还好加了内存条。 依次输入命令。（不要忘记在ubuntu下安装git apt-get install git就行了） 别傻不拉几的输入，用复制的，终端下复制方法自行百度。
+Ok，已经将jekyllbootstrap clone到本地了 执行第二步和第三步！
+一切正常，第四步！ 报错了！！
+忽略我又换了一台设备因为新设备报错又换了… 反正就是这个publickey的错误。 这个无比蛋疼的错误…百度了半天，在csdn上发现问题所在了。
+blog.sina.com.cn/s/blog_6b706e15010199p1.html(附上原帖地址)问题原因就是需为github账号添加ssh key。 对照着这篇博客添加了ssh 之后，就ok了。
+Ok了。我的天，累死了。主要就是ssh key那一步。 我现在用的是jekyllbootstrap的框架，怎么自己开始一个博客还没太明白。 judi0713.github.io输入之后 可以看到界面了！
+剩下的基本上应该就是前端知识了。到此为止已经可以访问了。 然后可以利用上一篇文章配置的jekyll环境在本地进行调试然后上线了。
+下一步我将研究如何不使用jekyllbootstrap的框架开始使用jekyll。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "利用Jekyllbootstrap开始使用Jekyll",
+      "item": "http://localhost:1313/posts/use-jekyllbootstrap/2015-2-7-use-jekyllbootstrap/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "利用Jekyllbootstrap开始使用Jekyll",
+  "name": "利用Jekyllbootstrap开始使用Jekyll",
+  "description": "上次在ubuntu下配置好了jekyll的环境不知道有啥用，都准备放弃了。今天下午睡了一觉觉得不能就这样不了了之。还是需要一个地方记录一下技术路上的点滴。 所以就继续开始我的jekyll之路了。\n提醒！！ 建议先看完整篇博客之后再操作！！！！ 如果你对照做错了出现问题别怪我….你可以百度，或者google。我已经为了写博客换了两台ubuntu已经很努力了。\n找到了一个网站jekyllbootstrap.com Bootstrap是Twitter开源的前端框架。具体怎么用我还在研究。不要嘲笑一个不会前端的人在倒腾他的博客。 总之点击去，然后\n我点击了左下角的按钮。 然后输入了我的github账号。 按照它的步骤，第一步是创建一个repository\n不要问我怎么在github上怎么创建repository，右上角\u0026quot;+\u0026quot;。不截图，自行研究…虽然我也是第一次。 然后就是第二步了。\n我打开我的ubuntu（天，为了写博客我开了两个ubuntu！）还好加了内存条。 依次输入命令。（不要忘记在ubuntu下安装git apt-get install git就行了） 别傻不拉几的输入，用复制的，终端下复制方法自行百度。\nOk，已经将jekyllbootstrap clone到本地了 执行第二步和第三步！\n一切正常，第四步！ 报错了！！\n忽略我又换了一台设备因为新设备报错又换了… 反正就是这个publickey的错误。 这个无比蛋疼的错误…百度了半天，在csdn上发现问题所在了。\nblog.sina.com.cn/s/blog_6b706e15010199p1.html(附上原帖地址)问题原因就是需为github账号添加ssh key。 对照着这篇博客添加了ssh 之后，就ok了。\nOk了。我的天，累死了。主要就是ssh key那一步。 我现在用的是jekyllbootstrap的框架，怎么自己开始一个博客还没太明白。 judi0713.github.io输入之后 可以看到界面了！\n剩下的基本上应该就是前端知识了。到此为止已经可以访问了。 然后可以利用上一篇文章配置的jekyll环境在本地进行调试然后上线了。\n下一步我将研究如何不使用jekyllbootstrap的框架开始使用jekyll。",
+  "keywords": [
+    
+  ],
+  "articleBody": "上次在ubuntu下配置好了jekyll的环境不知道有啥用，都准备放弃了。今天下午睡了一觉觉得不能就这样不了了之。还是需要一个地方记录一下技术路上的点滴。 所以就继续开始我的jekyll之路了。\n提醒！！ 建议先看完整篇博客之后再操作！！！！ 如果你对照做错了出现问题别怪我….你可以百度，或者google。我已经为了写博客换了两台ubuntu已经很努力了。\n找到了一个网站jekyllbootstrap.com Bootstrap是Twitter开源的前端框架。具体怎么用我还在研究。不要嘲笑一个不会前端的人在倒腾他的博客。 总之点击去，然后\n我点击了左下角的按钮。 然后输入了我的github账号。 按照它的步骤，第一步是创建一个repository\n不要问我怎么在github上怎么创建repository，右上角\"+\"。不截图，自行研究…虽然我也是第一次。 然后就是第二步了。\n我打开我的ubuntu（天，为了写博客我开了两个ubuntu！）还好加了内存条。 依次输入命令。（不要忘记在ubuntu下安装git apt-get install git就行了） 别傻不拉几的输入，用复制的，终端下复制方法自行百度。\nOk，已经将jekyllbootstrap clone到本地了 执行第二步和第三步！\n一切正常，第四步！ 报错了！！\n忽略我又换了一台设备因为新设备报错又换了… 反正就是这个publickey的错误。 这个无比蛋疼的错误…百度了半天，在csdn上发现问题所在了。\nblog.sina.com.cn/s/blog_6b706e15010199p1.html(附上原帖地址)问题原因就是需为github账号添加ssh key。 对照着这篇博客添加了ssh 之后，就ok了。\nOk了。我的天，累死了。主要就是ssh key那一步。 我现在用的是jekyllbootstrap的框架，怎么自己开始一个博客还没太明白。 judi0713.github.io输入之后 可以看到界面了！\n剩下的基本上应该就是前端知识了。到此为止已经可以访问了。 然后可以利用上一篇文章配置的jekyll环境在本地进行调试然后上线了。\n下一步我将研究如何不使用jekyllbootstrap的框架开始使用jekyll。\n",
+  "wordCount" : "39",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2015-02-07T00:00:00Z",
+  "dateModified": "2015-02-07T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/use-jekyllbootstrap/2015-2-7-use-jekyllbootstrap/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PaperMod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="PaperMod (Alt + H)">PaperMod</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="Feed">
+                    <span>Feed</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="About">
+                    <span>About</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      利用Jekyllbootstrap开始使用Jekyll
+    </h1>
+    <div class="post-meta"><span title='2015-02-07 00:00:00 +0000 UTC'>二月 7, 2015</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>上次在ubuntu下配置好了jekyll的环境不知道有啥用，都准备放弃了。今天下午睡了一觉觉得不能就这样不了了之。还是需要一个地方记录一下技术路上的点滴。
+所以就继续开始我的jekyll之路了。</p>
+<p>提醒！！
+建议先看完整篇博客之后再操作！！！！
+如果你对照做错了出现问题别怪我….你可以百度，或者google。我已经为了写博客换了两台ubuntu已经很努力了。</p>
+<p>找到了一个网站<a href="http://jekyllbootstrap.com/">jekyllbootstrap.com</a>
+Bootstrap是Twitter开源的前端框架。具体怎么用我还在研究。不要嘲笑一个不会前端的人在倒腾他的博客。
+总之点击去，然后</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-1.png" alt="use-jekyllbootstrap-1"  />
+</p>
+<p>我点击了左下角的按钮。
+然后输入了我的github账号。
+按照它的步骤，第一步是创建一个repository</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-2.png" alt="use-jekyllbootstrap-2"  />
+</p>
+<p>不要问我怎么在github上怎么创建repository，右上角&quot;+&quot;。不截图，自行研究…虽然我也是第一次。
+然后就是第二步了。</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-3.png" alt="use-jekyllbootstrap-3"  />
+</p>
+<p>我打开我的ubuntu（天，为了写博客我开了两个ubuntu！）还好加了内存条。
+依次输入命令。（不要忘记在ubuntu下安装git apt-get install git就行了）
+别傻不拉几的输入，用复制的，终端下复制方法自行百度。</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-4.png" alt="use-jekyllbootstrap-4"  />
+</p>
+<p>Ok，已经将jekyllbootstrap clone到本地了
+执行第二步和第三步！</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-5.png" alt="use-jekyllbootstrap-5"  />
+</p>
+<p>一切正常，第四步！
+报错了！！</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-6.png" alt="use-jekyllbootstrap-6"  />
+</p>
+<p>忽略我又换了一台设备因为新设备报错又换了…
+反正就是这个publickey的错误。
+这个无比蛋疼的错误…百度了半天，在csdn上发现问题所在了。</p>
+<p><a href="http://blog.sina.com.cn/s/blog_6b706e15010199p1.html">blog.sina.com.cn/s/blog_6b706e15010199p1.html</a>(附上原帖地址)问题原因就是需为github账号添加ssh key。
+对照着这篇博客添加了ssh 之后，就ok了。</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-7.png" alt="use-jekyllbootstrap-7"  />
+</p>
+<p>Ok了。我的天，累死了。主要就是ssh key那一步。
+我现在用的是jekyllbootstrap的框架，怎么自己开始一个博客还没太明白。
+<a href="http://judi0713.github.io/">judi0713.github.io</a>输入之后 可以看到界面了！</p>
+<p><img loading="lazy" src="/images/use-jekyllbootstrap/use-jekyllbootstrap-8.png" alt="use-jekyllbootstrap-8"  />
+</p>
+<p>剩下的基本上应该就是前端知识了。到此为止已经可以访问了。
+然后可以利用上一篇文章配置的jekyll环境在本地进行调试然后上线了。</p>
+<p>下一步我将研究如何不使用jekyllbootstrap的框架开始使用jekyll。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2015-2-8-use-jekyll/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>不利用Jekyllbootstrap上线Jekyll</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/ubuntu-jekyll-environment/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>关于在ubuntu下搭建github的Jekyll环境</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

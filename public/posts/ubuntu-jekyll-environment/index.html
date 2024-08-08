@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>关于在ubuntu下搭建github的Jekyll环境 | PaperMod</title>
+<meta name="keywords" content="">
+<meta name="description" content="Desc Text.">
+<meta name="author" content="Me">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/ubuntu-jekyll-environment/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="关于在ubuntu下搭建github的Jekyll环境" />
+<meta property="og:description" content="Desc Text." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/ubuntu-jekyll-environment/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-02-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2015-02-04T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="关于在ubuntu下搭建github的Jekyll环境"/>
+<meta name="twitter:description" content="Desc Text."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "关于在ubuntu下搭建github的Jekyll环境",
+      "item": "http://localhost:1313/posts/ubuntu-jekyll-environment/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "关于在ubuntu下搭建github的Jekyll环境",
+  "name": "关于在ubuntu下搭建github的Jekyll环境",
+  "description": "Desc Text.",
+  "keywords": [
+    
+  ],
+  "articleBody": "之前早就想有一个自己的博客，但是想自己定制不想用别人的，所以没有选择csdn。用WordPress的话需要服务器又不想花钱。我的师傅(下文和以后的文章和现实当中我都会称呼他迪哥)。迪哥将他的博客移到了github上。虽然github是静态页面，但是对我来说偶尔写写心得也是够用了。 没有仔细研读迪哥的几篇有关jekyll 的博客自己对着文档就上了。 因为后面几天可能还需要windows环境，所以暂时是在windows下跑的ubuntu14.04 32位的虚拟机。 废话结束，开工。\n假设你现在刚刚安装了ubuntu的操作系统。 刚装完ubuntu的同学不要忘记利用sudo apt-get update一下，更新源，不然不能用sudo apt-get安装软件。因为太长时间不用ubuntu所以我忘记了….后来百度才想起来新装的机子需要更新源。\n假设你已经更新源了，那么我们开始下一个步骤。 因为jekyll是需要ruby环境的。 在Mac下自带了ruby环境所以不需要安装ruby，在这我们需要安装ruby。 命令是sudu apt-get install ruby。 声明一下没有截图，但是所有需要的命令我会特别标注的。后面我遇到的问题会截图的。\n在jekyll的官方网站上我们需要用gem来安装jekyll，包括Stack Overflow上的很多网站都说需要sudo apt-get install rubygems。但是如下图，rubygems的包现在已经包含在ruby包里了，这就意味着我们不需要安装gem了，在安装ruby的同时gem已经安装好了。\n虽然我磕磕绊绊的到了这一步但是我想一般情况下前面update和安装ruby应该是不会出现什么意外情况的。 之后就是利用gem来安装了。 安装官方文档上写的，此时我们应该进行的操作是gem install jekyll，但是我在输入命令之后出现这个了这个问题。\n这是因为gem安装时需要获取最高权限，所以我们使用sudo gem install jekyll\n又报错了！！看error部分。出现了 “failed to build gem native extension” 上stackoverflow…完了才知道要安装一个ruby-dev 不太清楚ruby-dev是啥有ruby大神知道的务必教我。但是程序安装都需要dev，我记得好像以前在ubuntu下配置GoAgent的时候装过一个什么dev，在python的时候也装过一个什么什么dev。总之就安装一下呗。\n安装ruby-dev的速度很快很快很快。 之后就是激动人心的安装jekyll了！！\n再次执行sudo gem install jekyll已经不报错了，它显示building native extension. 可以很惊喜的发现已经开始安装了啦啦啦啦！！\n安装速度很快，完毕之后我激动的要开始创建的时候，它又报错了….\n注意第三行，could not find a javascrit runtime. 继续stackoverflow…. 需要nodejs环境，我是前端小白不要问我什么是nodejs，但是我知道在jekyll的官方文档里jekyll是需要nodejs环境的。 接着装吧，希望就在眼前了！！\n具体安装过程我就不截图了！ 至此，整个环境已经全部配好了。\n让我们new一个！！\nJekyll已经成功创建了！历时一个晚上加不到一个早上终于才完成了环境的搭建。相比较去年暑假配置环境的速度这次已经很快了…我现在已经会利用google和stackoverflow搜索这方面的东西了说明这一学期还是学了很多东西的。\n这是整个jekyll环境的配置，第一篇文章，后续我会继续我的github blog搭建之旅。\n",
+  "wordCount" : "67",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2015-02-04T00:00:00Z",
+  "dateModified": "2015-02-04T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/ubuntu-jekyll-environment/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PaperMod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="PaperMod (Alt + H)">PaperMod</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="Feed">
+                    <span>Feed</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="About">
+                    <span>About</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      关于在ubuntu下搭建github的Jekyll环境
+    </h1>
+    <div class="post-description">
+      Desc Text.
+    </div>
+    <div class="post-meta"><span title='2015-02-04 00:00:00 +0000 UTC'>二月 4, 2015</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;67 字&nbsp;·&nbsp;Me
+
+</div>
+  </header> 
+  <div class="post-content"><p>之前早就想有一个自己的博客，但是想自己定制不想用别人的，所以没有选择csdn。用WordPress的话需要服务器又不想花钱。我的师傅(下文和以后的文章和现实当中我都会称呼他迪哥)。迪哥将他的博客移到了github上。虽然github是静态页面，但是对我来说偶尔写写心得也是够用了。
+没有仔细研读迪哥的几篇有关jekyll 的博客自己对着文档就上了。
+因为后面几天可能还需要windows环境，所以暂时是在windows下跑的ubuntu14.04 32位的虚拟机。
+废话结束，开工。</p>
+<p>假设你现在刚刚安装了ubuntu的操作系统。
+刚装完ubuntu的同学不要忘记利用sudo apt-get update一下，更新源，不然不能用sudo apt-get安装软件。因为太长时间不用ubuntu所以我忘记了….后来百度才想起来新装的机子需要更新源。</p>
+<p>假设你已经更新源了，那么我们开始下一个步骤。
+因为jekyll是需要ruby环境的。
+在Mac下自带了ruby环境所以不需要安装ruby，在这我们需要安装ruby。
+命令是sudu apt-get install ruby。
+声明一下没有截图，但是所有需要的命令我会特别标注的。后面我遇到的问题会截图的。</p>
+<p>在jekyll的官方网站上我们需要用gem来安装jekyll，包括Stack Overflow上的很多网站都说需要sudo apt-get install rubygems。但是如下图，rubygems的包现在已经包含在ruby包里了，这就意味着我们不需要安装gem了，在安装ruby的同时gem已经安装好了。</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-1.png" alt="ubuntu-jekyll-environment-1"  />
+</p>
+<p>虽然我磕磕绊绊的到了这一步但是我想一般情况下前面update和安装ruby应该是不会出现什么意外情况的。
+之后就是利用gem来安装了。
+安装官方文档上写的，此时我们应该进行的操作是gem install jekyll，但是我在输入命令之后出现这个了这个问题。</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-2.png" alt="ubuntu-jekyll-environment-2"  />
+</p>
+<p>这是因为gem安装时需要获取最高权限，所以我们使用sudo gem install jekyll</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-3.png" alt="ubuntu-jekyll-environment-3"  />
+</p>
+<p>又报错了！！看error部分。出现了 “failed to build gem native extension”
+上stackoverflow…完了才知道要安装一个ruby-dev
+不太清楚ruby-dev是啥有ruby大神知道的务必教我。但是程序安装都需要dev，我记得好像以前在ubuntu下配置GoAgent的时候装过一个什么dev，在python的时候也装过一个什么什么dev。总之就安装一下呗。</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-4.png" alt="ubuntu-jekyll-environment-4"  />
+</p>
+<p>安装ruby-dev的速度很快很快很快。
+之后就是激动人心的安装jekyll了！！</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-5.png" alt="ubuntu-jekyll-environment-5"  />
+</p>
+<p>再次执行sudo gem install jekyll已经不报错了，它显示building native extension.
+可以很惊喜的发现已经开始安装了啦啦啦啦！！</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-6.png" alt="ubuntu-jekyll-environment-6"  />
+</p>
+<p>安装速度很快，完毕之后我激动的要开始创建的时候，它又报错了….</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-7.png" alt="ubuntu-jekyll-environment-7"  />
+</p>
+<p>注意第三行，could not find a javascrit runtime.
+继续stackoverflow….
+需要nodejs环境，我是前端小白不要问我什么是nodejs，但是我知道在jekyll的官方文档里jekyll是需要nodejs环境的。
+接着装吧，希望就在眼前了！！</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-8.png" alt="ubuntu-jekyll-environment-8"  />
+</p>
+<p>具体安装过程我就不截图了！
+至此，整个环境已经全部配好了。</p>
+<p>让我们new一个！！</p>
+<p><img loading="lazy" src="/images/ubuntu-jekyll-environment/ubuntu-jekyll-environment-9.png" alt="ubuntu-jekyll-environment-9"  />
+</p>
+<p>Jekyll已经成功创建了！历时一个晚上加不到一个早上终于才完成了环境的搭建。相比较去年暑假配置环境的速度这次已经很快了…我现在已经会利用google和stackoverflow搜索这方面的东西了说明这一学期还是学了很多东西的。</p>
+<p>这是整个jekyll环境的配置，第一篇文章，后续我会继续我的github blog搭建之旅。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/use-jekyllbootstrap/2015-2-7-use-jekyllbootstrap/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>利用Jekyllbootstrap开始使用Jekyll</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

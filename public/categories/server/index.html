@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Server | 迪迪咕咕</title>
+<meta name="keywords" content="">
+<meta name="description" content="DiDi&#39;s Website - https://www.dididigu.com/">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/categories/server/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/categories/server/index.xml">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/categories/server/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Server" />
+<meta property="og:description" content="DiDi&#39;s Website - https://www.dididigu.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://localhost:1313/categories/server/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="Server"/>
+<meta name="twitter:description" content="DiDi&#39;s Website - https://www.dididigu.com/"/>
+
+</head>
+
+<body class="list" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="迪迪咕咕 (Alt + H)">迪迪咕咕</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="订阅">
+                    <span>订阅</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="关于">
+                    <span>关于</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/categories/">Categories</a></div>
+  <h1>
+    Server
+    <a href="/categories/server/index.xml" title="RSS" aria-label="RSS">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" height="23">
+        <path d="M4 11a9 9 0 0 1 9 9" />
+        <path d="M4 4a16 16 0 0 1 16 16" />
+        <circle cx="5" cy="19" r="1" />
+      </svg>
+    </a>
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">查找 ruby 内存泄漏
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文没有深入探讨 ruby 的内存管理问题，本人水平有限，没有去深入看内存管理，而且我现在主要需要实现功能，这里只谈我是怎么解决问题的。
+起因 提到内存泄漏，这是个非常麻烦以及难以解决的问题，ruby 是自动回收内存，不是像 c 一样手动回收，虽然大部分语言现在都是这样，但是这就导致一个非常麻烦的问题，内存泄漏怎么办。我在解决这个问题的时候心里是有阴影的，因为之前写过一个 swift 的图表动画，运行几次之后就变的特别卡。一直也没有找到原因，后来换了一种非常啰嗦的写法才解决。所以这次是心有余悸的。
+事情的起端是我写了一个定时爬取数据的 ruby 程序。基本思路是用 ruby 来调用 python 脚本。然后通过 ruby 的 activerecord 存入数据库。为什么不用 python 直接存数据非得用 ruby 绕一下的理由是，activerocord 很好用，以及我想熟悉 ruby 栈，最后是这样可以和我的服务器 activerecord 无缝对接上，所以就用 ruby 了。
+我的需求是每个整点的第 22 分钟时运行一次，这里使用了 ruby 的 rufus-scheduler，在这个 gem 里有一个是调用 cron。但是问题在于，真的调用 cron 了吗？我没有看源代码，但是最终根据我内存泄漏的原因，我分析是没有的。起因就是，我把程序上传到服务器上，每次运行 3-4 天之后服务器就无法 ssh，但是可以 ping。查了一下觉得有可能是内存泄漏，于是开始了排查。
+排查 一开始我傻不拉唧直接在服务器上看内存使用。
+1.CPU占用最多的前10个进程： ps auxw|head -1;ps auxw|sort -rn -k3|head -10 2.内存消耗最多的前10个进程 ps auxw|head -1;ps auxw|sort -rn -k4|head -10 3.虚拟内存使用最多的前10个进程 ps auxw|head -1;ps auxw|sort -rn -k5|head -10 我这里使用了第 2 个。但是这个方法是很傻的，因为你不可能每小时都登服务器，只能大概判断，不过我间隔了一段时间登录之后发现确实程序内存使用上升。于是切换到本地测试。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-05-09 00:00:00 +0000 UTC'>五月 9, 2018</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to 查找 ruby 内存泄漏" href="http://localhost:1313/posts/search-for-ruby-memory/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+</body>
+
+</html>

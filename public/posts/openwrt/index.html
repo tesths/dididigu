@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>OpenWrt小记 | PaperMod</title>
+<meta name="keywords" content="">
+<meta name="description" content="慎哥开博客了，博客做的很好看！欢迎访问~cbsfly 请合理利用互联网，不要对国家安全造成任何威胁！
+因为要做比赛所以倒腾了OpenWrt倒腾了不到一天，做个小的记录。
+前天上网买的路由器昨天就到货了，淘宝，33，硬改了的。16M闪存64内存好像。
+昨天和店家交流了一下，店家人真的不错。然后我就开始把店家装好的操作系统重装，这次买的路由器是可以刷官方原版的，我就下载了一个最新版的chaos_calmer。
+什么是OpenWrt，简单的说，就是在你的路由器里面装个Linux操作系统。装上Linux的操作系统，是吧，你们懂得。基本上啥都能干了。
+如果你家用的是极路由或者是小米路由，你要清楚，那都是深度定制的OpenWrt&hellip;
+我倒腾了如下几个东西。一，中继。二，jump gfw。三，8021x校园网拨号。具体如下。
+预备 首先你得有个硬件能刷操作系统的路由器。我建议某宝买硬改的，很便宜。 在ubuntu中，操作系统更新和安装软件用的是apt-get，在OpenWrt里用的是opkg(我觉得是OpenWrt Package的缩写) 第二步可以联网进行操作，也可以本地安装。当然我一直觉得联网的好，不用编译配置啥的了&hellip; 刚刷完操作系统的时候路由器的无线网默认是关闭的，需要登录打开。 因为是操作系统，所以我们可以通过ssh root@192.168.1.1来对操作系统进行操作。 刷完路由器的那个web界面叫luci。下文会用到。 没找到中文语言包，所以下文全是英文。 中继 OpenWrt可以作为无线中继。在此感谢班长和姜导提供该技能包。
+所谓无线中继，就是你用OpweWrt连接无线网，然后再把这个无线网的信号扩展了。这样就解决了一个路由器信号不够强的问题。其次，前文说道，OpenWrt是个Linux的操作系统，我们安装软件需要让路由器联网。
+让路由器联网有两种方式，一种直接插网线到lan口。事实证明这样我就找不到路由器的ip了&hellip;
+在咨询了班长之后我选择了无线中继的方式。
+这有篇百度文库的教程写得很详细了我就不对步骤进行赘述了（百度文库还能有这种好材料&hellip;）因为我刷的是最新的cc版本路由器，所以界面不太一样，但是没啥差别。我只强调一个问题。
+在第一步里，一定要设置lan口的ip，不能在同一个网段。我设置成192.168.10.1，设置完成之后，OpenWrt路由器会通过上级路由器获得一个ip，通过OpenWrt这个路由连接的设备，ssh的ip地址变成192.168.10.1，web访问也变成192.168.10.1。
+全部设置完就可以通过OpenWrt路由器上网了，此时ssh到OpenWrt，发现已经可以ping了。
+jump gfw 前几天发朋友圈问了个敏感问题，没想到那么多人回复&hellip;
+我现在是要入党的人，但是我又是程序员，有时候确实不得不那什么。
+所以在此也说一下，你们有需求可以私聊我，我很乐意帮忙，具体手机和电脑怎么做我就不写了。路由器也是因为要做比赛才倒腾的。
+我用的是shadowsocks的方式，也可以用vpn，我们工作室的极路由提供了vpn的接口，表示vpn太难搭建。
+openwrt-shadowsocksGithub地址。
+首先下载预编译的ipk到本地安装。在shadowsocks-libev找到对应的机型。我的是ar71xx，然后找到那个下载次数最多的shadowsocks-libev-spec版本。这个是针对OpenWrt的优化版本。
+下载完毕之后，通过scp命令上传到OpenWrt上，先opkg update，这一步是更新源，和我们ubuntu的update一样。
+接着
+opkg install shadowsocks-libev-spec_2.4.3-1_ar71xx.ipk
+安装，他会自动的把需要的依赖包一并下载了。到这就完成了对ss的安装。
+在shadowsocks-libev-spec从v1.5.2开始可以使用luci配置界面。所以我就找了一下luci的package，所有的package都在packages列表。luci-app-shadowsocks-spec_1.3.7-1_all.ipk我的叫这个，我就下载了然后继续scp上传，然后
+opkg install luci-app-shadowsocks-spec_1.3.7-1_all.ipk
+之后登陆web界面，这时候就有可视化的配置界面了。
+输入你的ss账号密码就可以了。但是需要在最下面添加ignore list，让国内的网站直接连接网络，不然的话像我，就没法看nba直播了，很多视频优酷什么的也不能看了&hellip;
+这一步其实是关键的，新建一个后缀为list的文件，然后输入这串命令
+wget -O- &#39;http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest&#39; | awk -F\| &#39;/CN\|ipv4/ { printf(&quot;%s/%d\n&quot;, $4, 32-log($5)/log(2)) }&#39; &gt; /dev/ignore.list
+然后把ignore的路径设置到你配置的那个文件就可以了。
+这时候在开腾讯nba就能看直播了&hellip;我简直，为了看球什么都干得出来。然后再连接路由器就可以Jump gfw了~
+8021x校园网拨号 不过我们不用更换源，首先我们需要
+opkg remove wpad-mini">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/posts/openwrt/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/openwrt/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="OpenWrt小记" />
+<meta property="og:description" content="慎哥开博客了，博客做的很好看！欢迎访问~cbsfly 请合理利用互联网，不要对国家安全造成任何威胁！
+因为要做比赛所以倒腾了OpenWrt倒腾了不到一天，做个小的记录。
+前天上网买的路由器昨天就到货了，淘宝，33，硬改了的。16M闪存64内存好像。
+昨天和店家交流了一下，店家人真的不错。然后我就开始把店家装好的操作系统重装，这次买的路由器是可以刷官方原版的，我就下载了一个最新版的chaos_calmer。
+什么是OpenWrt，简单的说，就是在你的路由器里面装个Linux操作系统。装上Linux的操作系统，是吧，你们懂得。基本上啥都能干了。
+如果你家用的是极路由或者是小米路由，你要清楚，那都是深度定制的OpenWrt&hellip;
+我倒腾了如下几个东西。一，中继。二，jump gfw。三，8021x校园网拨号。具体如下。
+预备 首先你得有个硬件能刷操作系统的路由器。我建议某宝买硬改的，很便宜。 在ubuntu中，操作系统更新和安装软件用的是apt-get，在OpenWrt里用的是opkg(我觉得是OpenWrt Package的缩写) 第二步可以联网进行操作，也可以本地安装。当然我一直觉得联网的好，不用编译配置啥的了&hellip; 刚刷完操作系统的时候路由器的无线网默认是关闭的，需要登录打开。 因为是操作系统，所以我们可以通过ssh root@192.168.1.1来对操作系统进行操作。 刷完路由器的那个web界面叫luci。下文会用到。 没找到中文语言包，所以下文全是英文。 中继 OpenWrt可以作为无线中继。在此感谢班长和姜导提供该技能包。
+所谓无线中继，就是你用OpweWrt连接无线网，然后再把这个无线网的信号扩展了。这样就解决了一个路由器信号不够强的问题。其次，前文说道，OpenWrt是个Linux的操作系统，我们安装软件需要让路由器联网。
+让路由器联网有两种方式，一种直接插网线到lan口。事实证明这样我就找不到路由器的ip了&hellip;
+在咨询了班长之后我选择了无线中继的方式。
+这有篇百度文库的教程写得很详细了我就不对步骤进行赘述了（百度文库还能有这种好材料&hellip;）因为我刷的是最新的cc版本路由器，所以界面不太一样，但是没啥差别。我只强调一个问题。
+在第一步里，一定要设置lan口的ip，不能在同一个网段。我设置成192.168.10.1，设置完成之后，OpenWrt路由器会通过上级路由器获得一个ip，通过OpenWrt这个路由连接的设备，ssh的ip地址变成192.168.10.1，web访问也变成192.168.10.1。
+全部设置完就可以通过OpenWrt路由器上网了，此时ssh到OpenWrt，发现已经可以ping了。
+jump gfw 前几天发朋友圈问了个敏感问题，没想到那么多人回复&hellip;
+我现在是要入党的人，但是我又是程序员，有时候确实不得不那什么。
+所以在此也说一下，你们有需求可以私聊我，我很乐意帮忙，具体手机和电脑怎么做我就不写了。路由器也是因为要做比赛才倒腾的。
+我用的是shadowsocks的方式，也可以用vpn，我们工作室的极路由提供了vpn的接口，表示vpn太难搭建。
+openwrt-shadowsocksGithub地址。
+首先下载预编译的ipk到本地安装。在shadowsocks-libev找到对应的机型。我的是ar71xx，然后找到那个下载次数最多的shadowsocks-libev-spec版本。这个是针对OpenWrt的优化版本。
+下载完毕之后，通过scp命令上传到OpenWrt上，先opkg update，这一步是更新源，和我们ubuntu的update一样。
+接着
+opkg install shadowsocks-libev-spec_2.4.3-1_ar71xx.ipk
+安装，他会自动的把需要的依赖包一并下载了。到这就完成了对ss的安装。
+在shadowsocks-libev-spec从v1.5.2开始可以使用luci配置界面。所以我就找了一下luci的package，所有的package都在packages列表。luci-app-shadowsocks-spec_1.3.7-1_all.ipk我的叫这个，我就下载了然后继续scp上传，然后
+opkg install luci-app-shadowsocks-spec_1.3.7-1_all.ipk
+之后登陆web界面，这时候就有可视化的配置界面了。
+输入你的ss账号密码就可以了。但是需要在最下面添加ignore list，让国内的网站直接连接网络，不然的话像我，就没法看nba直播了，很多视频优酷什么的也不能看了&hellip;
+这一步其实是关键的，新建一个后缀为list的文件，然后输入这串命令
+wget -O- &#39;http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest&#39; | awk -F\| &#39;/CN\|ipv4/ { printf(&quot;%s/%d\n&quot;, $4, 32-log($5)/log(2)) }&#39; &gt; /dev/ignore.list
+然后把ignore的路径设置到你配置的那个文件就可以了。
+这时候在开腾讯nba就能看直播了&hellip;我简直，为了看球什么都干得出来。然后再连接路由器就可以Jump gfw了~
+8021x校园网拨号 不过我们不用更换源，首先我们需要
+opkg remove wpad-mini" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/openwrt/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-01-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-01-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="OpenWrt小记"/>
+<meta name="twitter:description" content="慎哥开博客了，博客做的很好看！欢迎访问~cbsfly 请合理利用互联网，不要对国家安全造成任何威胁！
+因为要做比赛所以倒腾了OpenWrt倒腾了不到一天，做个小的记录。
+前天上网买的路由器昨天就到货了，淘宝，33，硬改了的。16M闪存64内存好像。
+昨天和店家交流了一下，店家人真的不错。然后我就开始把店家装好的操作系统重装，这次买的路由器是可以刷官方原版的，我就下载了一个最新版的chaos_calmer。
+什么是OpenWrt，简单的说，就是在你的路由器里面装个Linux操作系统。装上Linux的操作系统，是吧，你们懂得。基本上啥都能干了。
+如果你家用的是极路由或者是小米路由，你要清楚，那都是深度定制的OpenWrt&hellip;
+我倒腾了如下几个东西。一，中继。二，jump gfw。三，8021x校园网拨号。具体如下。
+预备 首先你得有个硬件能刷操作系统的路由器。我建议某宝买硬改的，很便宜。 在ubuntu中，操作系统更新和安装软件用的是apt-get，在OpenWrt里用的是opkg(我觉得是OpenWrt Package的缩写) 第二步可以联网进行操作，也可以本地安装。当然我一直觉得联网的好，不用编译配置啥的了&hellip; 刚刷完操作系统的时候路由器的无线网默认是关闭的，需要登录打开。 因为是操作系统，所以我们可以通过ssh root@192.168.1.1来对操作系统进行操作。 刷完路由器的那个web界面叫luci。下文会用到。 没找到中文语言包，所以下文全是英文。 中继 OpenWrt可以作为无线中继。在此感谢班长和姜导提供该技能包。
+所谓无线中继，就是你用OpweWrt连接无线网，然后再把这个无线网的信号扩展了。这样就解决了一个路由器信号不够强的问题。其次，前文说道，OpenWrt是个Linux的操作系统，我们安装软件需要让路由器联网。
+让路由器联网有两种方式，一种直接插网线到lan口。事实证明这样我就找不到路由器的ip了&hellip;
+在咨询了班长之后我选择了无线中继的方式。
+这有篇百度文库的教程写得很详细了我就不对步骤进行赘述了（百度文库还能有这种好材料&hellip;）因为我刷的是最新的cc版本路由器，所以界面不太一样，但是没啥差别。我只强调一个问题。
+在第一步里，一定要设置lan口的ip，不能在同一个网段。我设置成192.168.10.1，设置完成之后，OpenWrt路由器会通过上级路由器获得一个ip，通过OpenWrt这个路由连接的设备，ssh的ip地址变成192.168.10.1，web访问也变成192.168.10.1。
+全部设置完就可以通过OpenWrt路由器上网了，此时ssh到OpenWrt，发现已经可以ping了。
+jump gfw 前几天发朋友圈问了个敏感问题，没想到那么多人回复&hellip;
+我现在是要入党的人，但是我又是程序员，有时候确实不得不那什么。
+所以在此也说一下，你们有需求可以私聊我，我很乐意帮忙，具体手机和电脑怎么做我就不写了。路由器也是因为要做比赛才倒腾的。
+我用的是shadowsocks的方式，也可以用vpn，我们工作室的极路由提供了vpn的接口，表示vpn太难搭建。
+openwrt-shadowsocksGithub地址。
+首先下载预编译的ipk到本地安装。在shadowsocks-libev找到对应的机型。我的是ar71xx，然后找到那个下载次数最多的shadowsocks-libev-spec版本。这个是针对OpenWrt的优化版本。
+下载完毕之后，通过scp命令上传到OpenWrt上，先opkg update，这一步是更新源，和我们ubuntu的update一样。
+接着
+opkg install shadowsocks-libev-spec_2.4.3-1_ar71xx.ipk
+安装，他会自动的把需要的依赖包一并下载了。到这就完成了对ss的安装。
+在shadowsocks-libev-spec从v1.5.2开始可以使用luci配置界面。所以我就找了一下luci的package，所有的package都在packages列表。luci-app-shadowsocks-spec_1.3.7-1_all.ipk我的叫这个，我就下载了然后继续scp上传，然后
+opkg install luci-app-shadowsocks-spec_1.3.7-1_all.ipk
+之后登陆web界面，这时候就有可视化的配置界面了。
+输入你的ss账号密码就可以了。但是需要在最下面添加ignore list，让国内的网站直接连接网络，不然的话像我，就没法看nba直播了，很多视频优酷什么的也不能看了&hellip;
+这一步其实是关键的，新建一个后缀为list的文件，然后输入这串命令
+wget -O- &#39;http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest&#39; | awk -F\| &#39;/CN\|ipv4/ { printf(&quot;%s/%d\n&quot;, $4, 32-log($5)/log(2)) }&#39; &gt; /dev/ignore.list
+然后把ignore的路径设置到你配置的那个文件就可以了。
+这时候在开腾讯nba就能看直播了&hellip;我简直，为了看球什么都干得出来。然后再连接路由器就可以Jump gfw了~
+8021x校园网拨号 不过我们不用更换源，首先我们需要
+opkg remove wpad-mini"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "OpenWrt小记",
+      "item": "http://localhost:1313/posts/openwrt/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OpenWrt小记",
+  "name": "OpenWrt小记",
+  "description": "慎哥开博客了，博客做的很好看！欢迎访问~cbsfly 请合理利用互联网，不要对国家安全造成任何威胁！\n因为要做比赛所以倒腾了OpenWrt倒腾了不到一天，做个小的记录。\n前天上网买的路由器昨天就到货了，淘宝，33，硬改了的。16M闪存64内存好像。\n昨天和店家交流了一下，店家人真的不错。然后我就开始把店家装好的操作系统重装，这次买的路由器是可以刷官方原版的，我就下载了一个最新版的chaos_calmer。\n什么是OpenWrt，简单的说，就是在你的路由器里面装个Linux操作系统。装上Linux的操作系统，是吧，你们懂得。基本上啥都能干了。\n如果你家用的是极路由或者是小米路由，你要清楚，那都是深度定制的OpenWrt\u0026hellip;\n我倒腾了如下几个东西。一，中继。二，jump gfw。三，8021x校园网拨号。具体如下。\n预备 首先你得有个硬件能刷操作系统的路由器。我建议某宝买硬改的，很便宜。 在ubuntu中，操作系统更新和安装软件用的是apt-get，在OpenWrt里用的是opkg(我觉得是OpenWrt Package的缩写) 第二步可以联网进行操作，也可以本地安装。当然我一直觉得联网的好，不用编译配置啥的了\u0026hellip; 刚刷完操作系统的时候路由器的无线网默认是关闭的，需要登录打开。 因为是操作系统，所以我们可以通过ssh root@192.168.1.1来对操作系统进行操作。 刷完路由器的那个web界面叫luci。下文会用到。 没找到中文语言包，所以下文全是英文。 中继 OpenWrt可以作为无线中继。在此感谢班长和姜导提供该技能包。\n所谓无线中继，就是你用OpweWrt连接无线网，然后再把这个无线网的信号扩展了。这样就解决了一个路由器信号不够强的问题。其次，前文说道，OpenWrt是个Linux的操作系统，我们安装软件需要让路由器联网。\n让路由器联网有两种方式，一种直接插网线到lan口。事实证明这样我就找不到路由器的ip了\u0026hellip;\n在咨询了班长之后我选择了无线中继的方式。\n这有篇百度文库的教程写得很详细了我就不对步骤进行赘述了（百度文库还能有这种好材料\u0026hellip;）因为我刷的是最新的cc版本路由器，所以界面不太一样，但是没啥差别。我只强调一个问题。\n在第一步里，一定要设置lan口的ip，不能在同一个网段。我设置成192.168.10.1，设置完成之后，OpenWrt路由器会通过上级路由器获得一个ip，通过OpenWrt这个路由连接的设备，ssh的ip地址变成192.168.10.1，web访问也变成192.168.10.1。\n全部设置完就可以通过OpenWrt路由器上网了，此时ssh到OpenWrt，发现已经可以ping了。\njump gfw 前几天发朋友圈问了个敏感问题，没想到那么多人回复\u0026hellip;\n我现在是要入党的人，但是我又是程序员，有时候确实不得不那什么。\n所以在此也说一下，你们有需求可以私聊我，我很乐意帮忙，具体手机和电脑怎么做我就不写了。路由器也是因为要做比赛才倒腾的。\n我用的是shadowsocks的方式，也可以用vpn，我们工作室的极路由提供了vpn的接口，表示vpn太难搭建。\nopenwrt-shadowsocksGithub地址。\n首先下载预编译的ipk到本地安装。在shadowsocks-libev找到对应的机型。我的是ar71xx，然后找到那个下载次数最多的shadowsocks-libev-spec版本。这个是针对OpenWrt的优化版本。\n下载完毕之后，通过scp命令上传到OpenWrt上，先opkg update，这一步是更新源，和我们ubuntu的update一样。\n接着\nopkg install shadowsocks-libev-spec_2.4.3-1_ar71xx.ipk\n安装，他会自动的把需要的依赖包一并下载了。到这就完成了对ss的安装。\n在shadowsocks-libev-spec从v1.5.2开始可以使用luci配置界面。所以我就找了一下luci的package，所有的package都在packages列表。luci-app-shadowsocks-spec_1.3.7-1_all.ipk我的叫这个，我就下载了然后继续scp上传，然后\nopkg install luci-app-shadowsocks-spec_1.3.7-1_all.ipk\n之后登陆web界面，这时候就有可视化的配置界面了。\n输入你的ss账号密码就可以了。但是需要在最下面添加ignore list，让国内的网站直接连接网络，不然的话像我，就没法看nba直播了，很多视频优酷什么的也不能看了\u0026hellip;\n这一步其实是关键的，新建一个后缀为list的文件，然后输入这串命令\nwget -O- 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | awk -F\\| '/CN\\|ipv4/ { printf(\u0026quot;%s/%d\\n\u0026quot;, $4, 32-log($5)/log(2)) }' \u0026gt; /dev/ignore.list\n然后把ignore的路径设置到你配置的那个文件就可以了。\n这时候在开腾讯nba就能看直播了\u0026hellip;我简直，为了看球什么都干得出来。然后再连接路由器就可以Jump gfw了~\n8021x校园网拨号 不过我们不用更换源，首先我们需要\nopkg remove wpad-mini",
+  "keywords": [
+    
+  ],
+  "articleBody": "慎哥开博客了，博客做的很好看！欢迎访问~cbsfly 请合理利用互联网，不要对国家安全造成任何威胁！\n因为要做比赛所以倒腾了OpenWrt倒腾了不到一天，做个小的记录。\n前天上网买的路由器昨天就到货了，淘宝，33，硬改了的。16M闪存64内存好像。\n昨天和店家交流了一下，店家人真的不错。然后我就开始把店家装好的操作系统重装，这次买的路由器是可以刷官方原版的，我就下载了一个最新版的chaos_calmer。\n什么是OpenWrt，简单的说，就是在你的路由器里面装个Linux操作系统。装上Linux的操作系统，是吧，你们懂得。基本上啥都能干了。\n如果你家用的是极路由或者是小米路由，你要清楚，那都是深度定制的OpenWrt…\n我倒腾了如下几个东西。一，中继。二，jump gfw。三，8021x校园网拨号。具体如下。\n预备 首先你得有个硬件能刷操作系统的路由器。我建议某宝买硬改的，很便宜。 在ubuntu中，操作系统更新和安装软件用的是apt-get，在OpenWrt里用的是opkg(我觉得是OpenWrt Package的缩写) 第二步可以联网进行操作，也可以本地安装。当然我一直觉得联网的好，不用编译配置啥的了… 刚刷完操作系统的时候路由器的无线网默认是关闭的，需要登录打开。 因为是操作系统，所以我们可以通过ssh root@192.168.1.1来对操作系统进行操作。 刷完路由器的那个web界面叫luci。下文会用到。 没找到中文语言包，所以下文全是英文。 中继 OpenWrt可以作为无线中继。在此感谢班长和姜导提供该技能包。\n所谓无线中继，就是你用OpweWrt连接无线网，然后再把这个无线网的信号扩展了。这样就解决了一个路由器信号不够强的问题。其次，前文说道，OpenWrt是个Linux的操作系统，我们安装软件需要让路由器联网。\n让路由器联网有两种方式，一种直接插网线到lan口。事实证明这样我就找不到路由器的ip了…\n在咨询了班长之后我选择了无线中继的方式。\n这有篇百度文库的教程写得很详细了我就不对步骤进行赘述了（百度文库还能有这种好材料…）因为我刷的是最新的cc版本路由器，所以界面不太一样，但是没啥差别。我只强调一个问题。\n在第一步里，一定要设置lan口的ip，不能在同一个网段。我设置成192.168.10.1，设置完成之后，OpenWrt路由器会通过上级路由器获得一个ip，通过OpenWrt这个路由连接的设备，ssh的ip地址变成192.168.10.1，web访问也变成192.168.10.1。\n全部设置完就可以通过OpenWrt路由器上网了，此时ssh到OpenWrt，发现已经可以ping了。\njump gfw 前几天发朋友圈问了个敏感问题，没想到那么多人回复…\n我现在是要入党的人，但是我又是程序员，有时候确实不得不那什么。\n所以在此也说一下，你们有需求可以私聊我，我很乐意帮忙，具体手机和电脑怎么做我就不写了。路由器也是因为要做比赛才倒腾的。\n我用的是shadowsocks的方式，也可以用vpn，我们工作室的极路由提供了vpn的接口，表示vpn太难搭建。\nopenwrt-shadowsocksGithub地址。\n首先下载预编译的ipk到本地安装。在shadowsocks-libev找到对应的机型。我的是ar71xx，然后找到那个下载次数最多的shadowsocks-libev-spec版本。这个是针对OpenWrt的优化版本。\n下载完毕之后，通过scp命令上传到OpenWrt上，先opkg update，这一步是更新源，和我们ubuntu的update一样。\n接着\nopkg install shadowsocks-libev-spec_2.4.3-1_ar71xx.ipk\n安装，他会自动的把需要的依赖包一并下载了。到这就完成了对ss的安装。\n在shadowsocks-libev-spec从v1.5.2开始可以使用luci配置界面。所以我就找了一下luci的package，所有的package都在packages列表。luci-app-shadowsocks-spec_1.3.7-1_all.ipk我的叫这个，我就下载了然后继续scp上传，然后\nopkg install luci-app-shadowsocks-spec_1.3.7-1_all.ipk\n之后登陆web界面，这时候就有可视化的配置界面了。\n输入你的ss账号密码就可以了。但是需要在最下面添加ignore list，让国内的网站直接连接网络，不然的话像我，就没法看nba直播了，很多视频优酷什么的也不能看了…\n这一步其实是关键的，新建一个后缀为list的文件，然后输入这串命令\nwget -O- 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | awk -F\\| '/CN\\|ipv4/ { printf(\"%s/%d\\n\", $4, 32-log($5)/log(2)) }' \u003e /dev/ignore.list\n然后把ignore的路径设置到你配置的那个文件就可以了。\n这时候在开腾讯nba就能看直播了…我简直，为了看球什么都干得出来。然后再连接路由器就可以Jump gfw了~\n8021x校园网拨号 不过我们不用更换源，首先我们需要\nopkg remove wpad-mini\n然后opkg install wpad和opkg install wpa-cli。\n然后配置8021x的文件就可以上网了。\n因为我走了中继，所以这个没有具体实践到拨号，只实践到安装依赖包。\n具体参考迪哥的博客极路由root并8021x校园网拨号经验分享\n结尾 请合理利用互联网，不要对国家安全造成任何威胁！\n参考链接 Openwrt无线中继教程 极路由root并8021x校园网拨号经验分享 openwrt-shadowsocks OpenWRT之Shadowsocks更新ignore.list ",
+  "wordCount" : "87",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2016-01-21T00:00:00Z",
+  "dateModified": "2016-01-21T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/openwrt/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PaperMod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="PaperMod (Alt + H)">PaperMod</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="Feed">
+                    <span>Feed</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="About">
+                    <span>About</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      OpenWrt小记
+    </h1>
+    <div class="post-meta"><span title='2016-01-21 00:00:00 +0000 UTC'>一月 21, 2016</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul><ul>
+                <li>
+                    <a href="#%e6%85%8e%e5%93%a5%e5%bc%80%e5%8d%9a%e5%ae%a2%e4%ba%86%e5%8d%9a%e5%ae%a2%e5%81%9a%e7%9a%84%e5%be%88%e5%a5%bd%e7%9c%8b%e6%ac%a2%e8%bf%8e%e8%ae%bf%e9%97%aecbsflyhttpcbsflygithubio" aria-label="慎哥开博客了，博客做的很好看！欢迎访问~cbsfly">慎哥开博客了，博客做的很好看！欢迎访问~cbsfly</a></li></ul>
+                    
+                <li>
+                    <a href="#%e9%a2%84%e5%a4%87" aria-label="预备">预备</a></li>
+                <li>
+                    <a href="#%e4%b8%ad%e7%bb%a7" aria-label="中继">中继</a></li>
+                <li>
+                    <a href="#jump-gfw" aria-label="jump gfw">jump gfw</a></li>
+                <li>
+                    <a href="#8021x%e6%a0%a1%e5%9b%ad%e7%bd%91%e6%8b%a8%e5%8f%b7" aria-label="8021x校园网拨号">8021x校园网拨号</a></li>
+                <li>
+                    <a href="#%e7%bb%93%e5%b0%be" aria-label="结尾">结尾</a></li>
+                <li>
+                    <a href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5" aria-label="参考链接">参考链接</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="慎哥开博客了博客做的很好看欢迎访问cbsflyhttpcbsflygithubio">慎哥开博客了，博客做的很好看！欢迎访问~<a href="http://cbsfly.github.io">cbsfly</a><a hidden class="anchor" aria-hidden="true" href="#慎哥开博客了博客做的很好看欢迎访问cbsflyhttpcbsflygithubio">#</a></h3>
+<blockquote>
+<p>请合理利用互联网，不要对国家安全造成任何威胁！</p>
+</blockquote>
+<p>因为要做比赛所以倒腾了<a href="https://openwrt.org/">OpenWrt</a>倒腾了不到一天，做个小的记录。</p>
+<p>前天上网买的路由器昨天就到货了，淘宝，33，硬改了的。16M闪存64内存好像。</p>
+<p>昨天和店家交流了一下，店家人真的不错。然后我就开始把店家装好的操作系统重装，这次买的路由器是可以刷官方原版的，我就下载了一个最新版的<a href="http://downloads.openwrt.org/chaos_calmer/15.05/">chaos_calmer</a>。</p>
+<p>什么是OpenWrt，简单的说，就是在你的路由器里面装个Linux操作系统。装上Linux的操作系统，是吧，你们懂得。基本上啥都能干了。</p>
+<p>如果你家用的是极路由或者是小米路由，你要清楚，那都是深度定制的OpenWrt&hellip;</p>
+<p>我倒腾了如下几个东西。一，中继。二，jump gfw。三，8021x校园网拨号。具体如下。</p>
+<h2 id="预备">预备<a hidden class="anchor" aria-hidden="true" href="#预备">#</a></h2>
+<ol>
+<li>首先你得有个硬件能刷操作系统的路由器。我建议某宝买硬改的，很便宜。</li>
+<li>在ubuntu中，操作系统更新和安装软件用的是apt-get，在OpenWrt里用的是opkg(我觉得是OpenWrt Package的缩写)</li>
+<li>第二步可以联网进行操作，也可以本地安装。当然我一直觉得联网的好，不用编译配置啥的了&hellip;</li>
+<li>刚刷完操作系统的时候路由器的无线网默认是关闭的，需要登录打开。</li>
+<li>因为是操作系统，所以我们可以通过ssh <a href="mailto:root@192.168.1.1">root@192.168.1.1</a>来对操作系统进行操作。</li>
+<li>刷完路由器的那个web界面叫luci。下文会用到。</li>
+<li>没找到中文语言包，所以下文全是英文。</li>
+</ol>
+<h2 id="中继">中继<a hidden class="anchor" aria-hidden="true" href="#中继">#</a></h2>
+<p>OpenWrt可以作为无线中继。在此感谢班长和姜导提供该技能包。</p>
+<p>所谓无线中继，就是你用OpweWrt连接无线网，然后再把这个无线网的信号扩展了。这样就解决了一个路由器信号不够强的问题。其次，前文说道，OpenWrt是个Linux的操作系统，我们安装软件需要让路由器联网。</p>
+<p>让路由器联网有两种方式，一种直接插网线到lan口。事实证明这样我就找不到路由器的ip了&hellip;</p>
+<p>在咨询了班长之后我选择了无线中继的方式。</p>
+<p>这有篇<a href="http://wenku.baidu.com/link?url=X8GEcVGOxcygQFB3EmYr1pfvLFbn_JvY4-7aGNoBft2ykQCnd8-yTAVybONuVi7X-dhGqmgIHYKxGyI_v6MlnXxERGFTwGz8h_uSouBK4tS">百度文库的教程</a>写得很详细了我就不对步骤进行赘述了（百度文库还能有这种好材料&hellip;）因为我刷的是最新的cc版本路由器，所以界面不太一样，但是没啥差别。我只强调一个问题。</p>
+<p>在第一步里，一定要设置lan口的ip，不能在同一个网段。我设置成192.168.10.1，设置完成之后，OpenWrt路由器会通过上级路由器获得一个ip，通过OpenWrt这个路由连接的设备，ssh的ip地址变成192.168.10.1，web访问也变成192.168.10.1。</p>
+<p>全部设置完就可以通过OpenWrt路由器上网了，此时ssh到OpenWrt，发现已经可以ping了。</p>
+<h2 id="jump-gfw">jump gfw<a hidden class="anchor" aria-hidden="true" href="#jump-gfw">#</a></h2>
+<p>前几天发朋友圈问了个敏感问题，没想到那么多人回复&hellip;</p>
+<p>我现在是要入党的人，但是我又是程序员，有时候确实不得不那什么。</p>
+<p>所以在此也说一下，你们有需求可以私聊我，我很乐意帮忙，具体手机和电脑怎么做我就不写了。路由器也是因为要做比赛才倒腾的。</p>
+<p>我用的是shadowsocks的方式，也可以用vpn，我们工作室的极路由提供了vpn的接口，表示vpn太难搭建。</p>
+<p><a href="https://github.com/shadowsocks/openwrt-shadowsocks">openwrt-shadowsocks</a>Github地址。</p>
+<p>首先下载预编译的ipk到本地安装。在<a href="http://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/2.4.3-33429ad/">shadowsocks-libev</a>找到对应的机型。我的是ar71xx，然后找到那个下载次数最多的shadowsocks-libev-spec版本。这个是针对OpenWrt的优化版本。</p>
+<p>下载完毕之后，通过scp命令上传到OpenWrt上，先<code>opkg update</code>，这一步是更新源，和我们ubuntu的update一样。</p>
+<p>接着</p>
+<p><code>opkg install shadowsocks-libev-spec_2.4.3-1_ar71xx.ipk</code></p>
+<p>安装，他会自动的把需要的依赖包一并下载了。到这就完成了对ss的安装。</p>
+<p>在shadowsocks-libev-spec从v1.5.2开始可以使用luci配置界面。所以我就找了一下luci的package，所有的package都在<a href="https://downloads.openwrt.org/chaos_calmer/15.05/ar71xx/generic/packages/">packages列表</a>。luci-app-shadowsocks-spec_1.3.7-1_all.ipk我的叫这个，我就下载了然后继续scp上传，然后</p>
+<p><code>opkg install luci-app-shadowsocks-spec_1.3.7-1_all.ipk</code></p>
+<p>之后登陆web界面，这时候就有可视化的配置界面了。</p>
+<p><img loading="lazy" src="/images/openwrt.png" alt="openwrt"  />
+</p>
+<p>输入你的ss账号密码就可以了。但是需要在最下面添加ignore list，让国内的网站直接连接网络，不然的话像我，就没法看nba直播了，很多视频优酷什么的也不能看了&hellip;</p>
+<p>这一步其实是关键的，新建一个后缀为list的文件，然后输入这串命令</p>
+<p><code>wget -O- 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | awk -F\| '/CN\|ipv4/ { printf(&quot;%s/%d\n&quot;, $4, 32-log($5)/log(2)) }' &gt; /dev/ignore.list</code></p>
+<p>然后把ignore的路径设置到你配置的那个文件就可以了。</p>
+<p>这时候在开腾讯nba就能看直播了&hellip;我简直，为了看球什么都干得出来。然后再连接路由器就可以Jump gfw了~</p>
+<h2 id="8021x校园网拨号">8021x校园网拨号<a hidden class="anchor" aria-hidden="true" href="#8021x校园网拨号">#</a></h2>
+<p>不过我们不用更换源，首先我们需要</p>
+<p><code>opkg remove wpad-mini</code></p>
+<p>然后<code>opkg install wpad</code>和<code>opkg install wpa-cli</code>。</p>
+<p>然后配置8021x的文件就可以上网了。</p>
+<p>因为我走了中继，所以这个没有具体实践到拨号，只实践到安装依赖包。</p>
+<p>具体参考迪哥的博客<a href="http://cindyfn.com/jiluyou/2015/02/04/ji-lu-you-8021.html">极路由root并8021x校园网拨号经验分享</a></p>
+<h2 id="结尾">结尾<a hidden class="anchor" aria-hidden="true" href="#结尾">#</a></h2>
+<blockquote>
+<p>请合理利用互联网，不要对国家安全造成任何威胁！</p>
+</blockquote>
+<h2 id="参考链接">参考链接<a hidden class="anchor" aria-hidden="true" href="#参考链接">#</a></h2>
+<ol>
+<li><a href="http://wenku.baidu.com/link?url=X8GEcVGOxcygQFB3EmYr1pfvLFbn_JvY4-7aGNoBft2ykQCnd8-yTAVybONuVi7X-dhGqmgIHYKxGyI_v6MlnXxERGFTwGz8h_uSouBK4tS">Openwrt无线中继教程</a></li>
+<li><a href="http://cindyfn.com/jiluyou/2015/02/04/ji-lu-you-8021.html">极路由root并8021x校园网拨号经验分享</a></li>
+<li><a href="https://github.com/shadowsocks/openwrt-shadowsocks">openwrt-shadowsocks</a></li>
+<li><a href="http://blog.tshine.me/openwrt%E4%B9%8Bshadowsocks%E6%9B%B4%E6%96%B0ignore-list.html">OpenWRT之Shadowsocks更新ignore.list</a></li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2016-2-6-sumup/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>大三上&#43;我的2016年总结</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/2016-1-9-study/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>念书真的很幸福</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

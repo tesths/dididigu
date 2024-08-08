@@ -21,12 +21,5 @@
       <guid>http://localhost:1313/posts/second/</guid>
       <description>Desc Text.</description>
     </item>
-    <item>
-      <title>My 1st post</title>
-      <link>http://localhost:1313/posts/first/</link>
-      <pubDate>Tue, 15 Sep 2020 11:30:03 +0000</pubDate>
-      <guid>http://localhost:1313/posts/first/</guid>
-      <description>Desc Text.</description>
-    </item>
   </channel>
 </rss>

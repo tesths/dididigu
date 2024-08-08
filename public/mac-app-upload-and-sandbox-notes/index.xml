@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Mac-App-Upload-and-Sandbox-Notes on PaperMod</title>
+    <link>http://localhost:1313/mac-app-upload-and-sandbox-notes/</link>
+    <description>Recent content in Mac-App-Upload-and-Sandbox-Notes on PaperMod</description>
+    <image>
+      <title>PaperMod</title>
+      <url>http://localhost:1313/images/papermod-cover.png</url>
+      <link>http://localhost:1313/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- 0.131.0</generator>
+    <language>zh</language>
+    <copyright>DiDi&amp;rsquo;s Website</copyright>
+    <lastBuildDate>Sun, 15 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/mac-app-upload-and-sandbox-notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>松果压制上架 Mac App Store 及沙盒机制的部分说明</title>
+      <link>http://localhost:1313/mac-app-upload-and-sandbox-notes/2018-7-15-mas-sanbox/</link>
+      <pubDate>Sun, 15 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/mac-app-upload-and-sandbox-notes/2018-7-15-mas-sanbox/</guid>
+      <description>距离上次写博客过去了一个月。这一个月经历了挣扎的上架 MAS。还好我没放弃，终于在昨天上架了 MAS。
+我将凭借我的记忆来叙述这个上架过程中一些对于沙盒机制的理解。以及整个上线过程中存在的坑。
+第三方 executable file 的签名 上文提到，我在整个软件的压制过程中，使用的是 ffmpeg 官网的可执行文件压制。而像 Mac 上著名的 INNA 是采用的 ffmpeg 的 .h 头文件 + 部分 objective-c 代码来实现部分和 ffmpeg 相关的代码。
+我承认我不是一个好的工程师，我也承认我觉得使用 ffmpeg 的 c 文件进行二次开发是更好的选择。但是如果我把我的精力放在研究 c 代码上，那这个工程量对于我来说太大，以及我觉得直接使用 ffmpeg 并不是不可以。
+那么采用 ffmpeg 可执行文件作为我们的主要工具，就有一个很重要的问题，那就是 ffmpeg 的签名问题。MAS 版本的所有文件都要求进行签名，我第一次无法上传到 MAS 的问题就是 ffmpeg 没有签名。这里的签名就直接使用 codesign 签名是可以的。除此之外，对于 ffmpeg 要求有一个单独的 entitlement 文件，而这个文件里面应该填写的是
+&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt; &amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;com.apple.security.inherit&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; &amp;lt;key&amp;gt;com.apple.security.app-sandbox&amp;lt;/key&amp;gt; &amp;lt;true/&amp;gt; &amp;lt;/dict&amp;gt; &amp;lt;/plist&amp;gt; 然后在签名的使用 codesign 和 entitlement 签名。</description>
+    </item>
+  </channel>
+</rss>

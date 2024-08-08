@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Mac升级10.11 EI Captain 填坑 | 迪迪咕咕</title>
+<meta name="keywords" content="">
+<meta name="description" content="上周日更新了新版的Mac OS 10.11 EI Captain，上午在工作室升级Xcode7还有keynote等等，下午安装操作系统和各种倒腾。最后发现时间都浪费在下午软件不能正常安装上了。特此写篇博客记录一下整个填更新的填坑过程。
+其实我是很反对更新的，一更新就得踩坑，但是强迫症患者没法看到有更新不去更。
+下面开始正文。
+1. homebrew不能使用 homebrew本身是需要Xcode的command line的，而新版的Xcode7，应该是会把之前的command line删除了..所以即使你用sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer但是你还是没有办法使用homebrew，你在使用homebrew的时候，不论什么命令，都是Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool
+当然，有sudo xcodebuild -license的原因，就是你没有同意xcodebuild的license。当然这些我都试了。还是不行，后来查查发现是command line没有选中的原因。
+解决方法：首先xcode-select -p一般默认是sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer 但是Xcode7你需要切换到/Library/Developer/CommandLineTools，这时候就好了。
+很多人的homebrew不能用是因为权限问题，在使用homebrew doctor的时候会提醒你。这点就不说了。
+2. Xtrafinder不能使用 Xtrafinder更新完之后会提醒你怎么做，这就是苹果的rootless机制导致的，开开就OK了。
+我想说的就是Xtrafinder会挡住finder一部分，前天好像已经出了更新，但是源没有换，所以还是0.25.6版本。V2ex上有人问了，大家都一样，不是电脑的问题所以不要着急。
+3. gem更新 gem安装的东西，反正我的是都没了&hellip;因为苹果把/usr (except /usr/local)里的东西都再见了。需要把gem的默认安装路径重新设置一下。 所以我的rails还有博客的jekyll，当然，还有我的cocoapods都挂了。需要重新安装。
+网上好多方法，说自定义GEM_HOME等等。我觉得都不太好，在stackoverflow上看到一个方法很好，分享一下。
+打开terminal修改~/.gemrc
+增加gem: -n/usr/local/bin这样就把gem的默认安装环境换到了/usr/local/bin下，这样更新gem就没问题了。
+4.Xcode的Alcatraz不在window下显示 也就自己的Mac作大死解决这个问题。
+网上有很多在github提issue，我看了很多，对着做了很多。里面说的都很详细，在此不贴，最后面有链接。
+基本上原因就是，你的Alcatraz没有加入Xcode的UUID。
+这里说明一下，每个Xcode版本的UUID不一样，所以最好的方法是先获取Xcode的UUID。
+命令是defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
+最后加到一个plist文件然后重启Xcode就可以了，大部分都是这样解决了。
+当然，我用这个方法没有解决。万念俱灰下，重新用了百度..想看看国内人怎么解决的，记不得在cocoachina还是csdn看到一个人说，那些方法我都没有，我把Alcatraz下载下来运行了一下就ok了&hellip;
+于是乎，我上github上下载了Alcatraz，运行了一下。。我也ok了。。
+基本上遇到的大坑就这几个，踩完也没啥了。
+但是我app store更新完新版本的Xcode7之后再安装Xcode6，app store就会更新我的Xcode6..而且我的homebrew也是只能识别我的Xcode6了&hellip;我一直无法解决。还有我的XQuartz一直显示过期也没法解决。简直，强迫症。
+最后唠两句。
+最近为啥没更新博客，我会说我同时写了几份代码么&hellip;完全没有时间。。 最近的心凉的很透彻。晚上看着微信洗脸。唉，说好了四星期之后做点其他事情，这都五星期了，还在写代码。在意的东西太多，不放弃一些永远只能这样。
+还有，暂时是决定考研了。
+有些事情，唉，就这了，没戏的事情总在想也没啥意义..还是忙一忙充实充实就不想了。
+参考链接 1.关于 OSX 升级到 EI Captain 的解决方案">
+<meta name="author" content="Me">
+<link rel="canonical" href="http://localhost:1313/posts/mac-eicaptain-upgrade-problem/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/mac-eicaptain-upgrade-problem/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="Mac升级10.11 EI Captain 填坑" />
+<meta property="og:description" content="上周日更新了新版的Mac OS 10.11 EI Captain，上午在工作室升级Xcode7还有keynote等等，下午安装操作系统和各种倒腾。最后发现时间都浪费在下午软件不能正常安装上了。特此写篇博客记录一下整个填更新的填坑过程。
+其实我是很反对更新的，一更新就得踩坑，但是强迫症患者没法看到有更新不去更。
+下面开始正文。
+1. homebrew不能使用 homebrew本身是需要Xcode的command line的，而新版的Xcode7，应该是会把之前的command line删除了..所以即使你用sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer但是你还是没有办法使用homebrew，你在使用homebrew的时候，不论什么命令，都是Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool
+当然，有sudo xcodebuild -license的原因，就是你没有同意xcodebuild的license。当然这些我都试了。还是不行，后来查查发现是command line没有选中的原因。
+解决方法：首先xcode-select -p一般默认是sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer 但是Xcode7你需要切换到/Library/Developer/CommandLineTools，这时候就好了。
+很多人的homebrew不能用是因为权限问题，在使用homebrew doctor的时候会提醒你。这点就不说了。
+2. Xtrafinder不能使用 Xtrafinder更新完之后会提醒你怎么做，这就是苹果的rootless机制导致的，开开就OK了。
+我想说的就是Xtrafinder会挡住finder一部分，前天好像已经出了更新，但是源没有换，所以还是0.25.6版本。V2ex上有人问了，大家都一样，不是电脑的问题所以不要着急。
+3. gem更新 gem安装的东西，反正我的是都没了&hellip;因为苹果把/usr (except /usr/local)里的东西都再见了。需要把gem的默认安装路径重新设置一下。 所以我的rails还有博客的jekyll，当然，还有我的cocoapods都挂了。需要重新安装。
+网上好多方法，说自定义GEM_HOME等等。我觉得都不太好，在stackoverflow上看到一个方法很好，分享一下。
+打开terminal修改~/.gemrc
+增加gem: -n/usr/local/bin这样就把gem的默认安装环境换到了/usr/local/bin下，这样更新gem就没问题了。
+4.Xcode的Alcatraz不在window下显示 也就自己的Mac作大死解决这个问题。
+网上有很多在github提issue，我看了很多，对着做了很多。里面说的都很详细，在此不贴，最后面有链接。
+基本上原因就是，你的Alcatraz没有加入Xcode的UUID。
+这里说明一下，每个Xcode版本的UUID不一样，所以最好的方法是先获取Xcode的UUID。
+命令是defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
+最后加到一个plist文件然后重启Xcode就可以了，大部分都是这样解决了。
+当然，我用这个方法没有解决。万念俱灰下，重新用了百度..想看看国内人怎么解决的，记不得在cocoachina还是csdn看到一个人说，那些方法我都没有，我把Alcatraz下载下来运行了一下就ok了&hellip;
+于是乎，我上github上下载了Alcatraz，运行了一下。。我也ok了。。
+基本上遇到的大坑就这几个，踩完也没啥了。
+但是我app store更新完新版本的Xcode7之后再安装Xcode6，app store就会更新我的Xcode6..而且我的homebrew也是只能识别我的Xcode6了&hellip;我一直无法解决。还有我的XQuartz一直显示过期也没法解决。简直，强迫症。
+最后唠两句。
+最近为啥没更新博客，我会说我同时写了几份代码么&hellip;完全没有时间。。 最近的心凉的很透彻。晚上看着微信洗脸。唉，说好了四星期之后做点其他事情，这都五星期了，还在写代码。在意的东西太多，不放弃一些永远只能这样。
+还有，暂时是决定考研了。
+有些事情，唉，就这了，没戏的事情总在想也没啥意义..还是忙一忙充实充实就不想了。
+参考链接 1.关于 OSX 升级到 EI Captain 的解决方案" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/mac-eicaptain-upgrade-problem/" />
+<meta property="og:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-11-18T19:54:59+00:00" />
+<meta property="article:modified_time" content="2015-11-18T19:54:59+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://localhost:1313/images/papermod-cover.png" />
+<meta name="twitter:title" content="Mac升级10.11 EI Captain 填坑"/>
+<meta name="twitter:description" content="上周日更新了新版的Mac OS 10.11 EI Captain，上午在工作室升级Xcode7还有keynote等等，下午安装操作系统和各种倒腾。最后发现时间都浪费在下午软件不能正常安装上了。特此写篇博客记录一下整个填更新的填坑过程。
+其实我是很反对更新的，一更新就得踩坑，但是强迫症患者没法看到有更新不去更。
+下面开始正文。
+1. homebrew不能使用 homebrew本身是需要Xcode的command line的，而新版的Xcode7，应该是会把之前的command line删除了..所以即使你用sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer但是你还是没有办法使用homebrew，你在使用homebrew的时候，不论什么命令，都是Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool
+当然，有sudo xcodebuild -license的原因，就是你没有同意xcodebuild的license。当然这些我都试了。还是不行，后来查查发现是command line没有选中的原因。
+解决方法：首先xcode-select -p一般默认是sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer 但是Xcode7你需要切换到/Library/Developer/CommandLineTools，这时候就好了。
+很多人的homebrew不能用是因为权限问题，在使用homebrew doctor的时候会提醒你。这点就不说了。
+2. Xtrafinder不能使用 Xtrafinder更新完之后会提醒你怎么做，这就是苹果的rootless机制导致的，开开就OK了。
+我想说的就是Xtrafinder会挡住finder一部分，前天好像已经出了更新，但是源没有换，所以还是0.25.6版本。V2ex上有人问了，大家都一样，不是电脑的问题所以不要着急。
+3. gem更新 gem安装的东西，反正我的是都没了&hellip;因为苹果把/usr (except /usr/local)里的东西都再见了。需要把gem的默认安装路径重新设置一下。 所以我的rails还有博客的jekyll，当然，还有我的cocoapods都挂了。需要重新安装。
+网上好多方法，说自定义GEM_HOME等等。我觉得都不太好，在stackoverflow上看到一个方法很好，分享一下。
+打开terminal修改~/.gemrc
+增加gem: -n/usr/local/bin这样就把gem的默认安装环境换到了/usr/local/bin下，这样更新gem就没问题了。
+4.Xcode的Alcatraz不在window下显示 也就自己的Mac作大死解决这个问题。
+网上有很多在github提issue，我看了很多，对着做了很多。里面说的都很详细，在此不贴，最后面有链接。
+基本上原因就是，你的Alcatraz没有加入Xcode的UUID。
+这里说明一下，每个Xcode版本的UUID不一样，所以最好的方法是先获取Xcode的UUID。
+命令是defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID
+最后加到一个plist文件然后重启Xcode就可以了，大部分都是这样解决了。
+当然，我用这个方法没有解决。万念俱灰下，重新用了百度..想看看国内人怎么解决的，记不得在cocoachina还是csdn看到一个人说，那些方法我都没有，我把Alcatraz下载下来运行了一下就ok了&hellip;
+于是乎，我上github上下载了Alcatraz，运行了一下。。我也ok了。。
+基本上遇到的大坑就这几个，踩完也没啥了。
+但是我app store更新完新版本的Xcode7之后再安装Xcode6，app store就会更新我的Xcode6..而且我的homebrew也是只能识别我的Xcode6了&hellip;我一直无法解决。还有我的XQuartz一直显示过期也没法解决。简直，强迫症。
+最后唠两句。
+最近为啥没更新博客，我会说我同时写了几份代码么&hellip;完全没有时间。。 最近的心凉的很透彻。晚上看着微信洗脸。唉，说好了四星期之后做点其他事情，这都五星期了，还在写代码。在意的东西太多，不放弃一些永远只能这样。
+还有，暂时是决定考研了。
+有些事情，唉，就这了，没戏的事情总在想也没啥意义..还是忙一忙充实充实就不想了。
+参考链接 1.关于 OSX 升级到 EI Captain 的解决方案"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Mac升级10.11 EI Captain 填坑",
+      "item": "http://localhost:1313/posts/mac-eicaptain-upgrade-problem/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Mac升级10.11 EI Captain 填坑",
+  "name": "Mac升级10.11 EI Captain 填坑",
+  "description": "上周日更新了新版的Mac OS 10.11 EI Captain，上午在工作室升级Xcode7还有keynote等等，下午安装操作系统和各种倒腾。最后发现时间都浪费在下午软件不能正常安装上了。特此写篇博客记录一下整个填更新的填坑过程。\n其实我是很反对更新的，一更新就得踩坑，但是强迫症患者没法看到有更新不去更。\n下面开始正文。\n1. homebrew不能使用 homebrew本身是需要Xcode的command line的，而新版的Xcode7，应该是会把之前的command line删除了..所以即使你用sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer但是你还是没有办法使用homebrew，你在使用homebrew的时候，不论什么命令，都是Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool\n当然，有sudo xcodebuild -license的原因，就是你没有同意xcodebuild的license。当然这些我都试了。还是不行，后来查查发现是command line没有选中的原因。\n解决方法：首先xcode-select -p一般默认是sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer 但是Xcode7你需要切换到/Library/Developer/CommandLineTools，这时候就好了。\n很多人的homebrew不能用是因为权限问题，在使用homebrew doctor的时候会提醒你。这点就不说了。\n2. Xtrafinder不能使用 Xtrafinder更新完之后会提醒你怎么做，这就是苹果的rootless机制导致的，开开就OK了。\n我想说的就是Xtrafinder会挡住finder一部分，前天好像已经出了更新，但是源没有换，所以还是0.25.6版本。V2ex上有人问了，大家都一样，不是电脑的问题所以不要着急。\n3. gem更新 gem安装的东西，反正我的是都没了\u0026hellip;因为苹果把/usr (except /usr/local)里的东西都再见了。需要把gem的默认安装路径重新设置一下。 所以我的rails还有博客的jekyll，当然，还有我的cocoapods都挂了。需要重新安装。\n网上好多方法，说自定义GEM_HOME等等。我觉得都不太好，在stackoverflow上看到一个方法很好，分享一下。\n打开terminal修改~/.gemrc\n增加gem: -n/usr/local/bin这样就把gem的默认安装环境换到了/usr/local/bin下，这样更新gem就没问题了。\n4.Xcode的Alcatraz不在window下显示 也就自己的Mac作大死解决这个问题。\n网上有很多在github提issue，我看了很多，对着做了很多。里面说的都很详细，在此不贴，最后面有链接。\n基本上原因就是，你的Alcatraz没有加入Xcode的UUID。\n这里说明一下，每个Xcode版本的UUID不一样，所以最好的方法是先获取Xcode的UUID。\n命令是defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID\n最后加到一个plist文件然后重启Xcode就可以了，大部分都是这样解决了。\n当然，我用这个方法没有解决。万念俱灰下，重新用了百度..想看看国内人怎么解决的，记不得在cocoachina还是csdn看到一个人说，那些方法我都没有，我把Alcatraz下载下来运行了一下就ok了\u0026hellip;\n于是乎，我上github上下载了Alcatraz，运行了一下。。我也ok了。。\n基本上遇到的大坑就这几个，踩完也没啥了。\n但是我app store更新完新版本的Xcode7之后再安装Xcode6，app store就会更新我的Xcode6..而且我的homebrew也是只能识别我的Xcode6了\u0026hellip;我一直无法解决。还有我的XQuartz一直显示过期也没法解决。简直，强迫症。\n最后唠两句。\n最近为啥没更新博客，我会说我同时写了几份代码么\u0026hellip;完全没有时间。。 最近的心凉的很透彻。晚上看着微信洗脸。唉，说好了四星期之后做点其他事情，这都五星期了，还在写代码。在意的东西太多，不放弃一些永远只能这样。\n还有，暂时是决定考研了。\n有些事情，唉，就这了，没戏的事情总在想也没啥意义..还是忙一忙充实充实就不想了。\n参考链接 1.关于 OSX 升级到 EI Captain 的解决方案",
+  "keywords": [
+    
+  ],
+  "articleBody": "上周日更新了新版的Mac OS 10.11 EI Captain，上午在工作室升级Xcode7还有keynote等等，下午安装操作系统和各种倒腾。最后发现时间都浪费在下午软件不能正常安装上了。特此写篇博客记录一下整个填更新的填坑过程。\n其实我是很反对更新的，一更新就得踩坑，但是强迫症患者没法看到有更新不去更。\n下面开始正文。\n1. homebrew不能使用 homebrew本身是需要Xcode的command line的，而新版的Xcode7，应该是会把之前的command line删除了..所以即使你用sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer但是你还是没有办法使用homebrew，你在使用homebrew的时候，不论什么命令，都是Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool\n当然，有sudo xcodebuild -license的原因，就是你没有同意xcodebuild的license。当然这些我都试了。还是不行，后来查查发现是command line没有选中的原因。\n解决方法：首先xcode-select -p一般默认是sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer 但是Xcode7你需要切换到/Library/Developer/CommandLineTools，这时候就好了。\n很多人的homebrew不能用是因为权限问题，在使用homebrew doctor的时候会提醒你。这点就不说了。\n2. Xtrafinder不能使用 Xtrafinder更新完之后会提醒你怎么做，这就是苹果的rootless机制导致的，开开就OK了。\n我想说的就是Xtrafinder会挡住finder一部分，前天好像已经出了更新，但是源没有换，所以还是0.25.6版本。V2ex上有人问了，大家都一样，不是电脑的问题所以不要着急。\n3. gem更新 gem安装的东西，反正我的是都没了…因为苹果把/usr (except /usr/local)里的东西都再见了。需要把gem的默认安装路径重新设置一下。 所以我的rails还有博客的jekyll，当然，还有我的cocoapods都挂了。需要重新安装。\n网上好多方法，说自定义GEM_HOME等等。我觉得都不太好，在stackoverflow上看到一个方法很好，分享一下。\n打开terminal修改~/.gemrc\n增加gem: -n/usr/local/bin这样就把gem的默认安装环境换到了/usr/local/bin下，这样更新gem就没问题了。\n4.Xcode的Alcatraz不在window下显示 也就自己的Mac作大死解决这个问题。\n网上有很多在github提issue，我看了很多，对着做了很多。里面说的都很详细，在此不贴，最后面有链接。\n基本上原因就是，你的Alcatraz没有加入Xcode的UUID。\n这里说明一下，每个Xcode版本的UUID不一样，所以最好的方法是先获取Xcode的UUID。\n命令是defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID\n最后加到一个plist文件然后重启Xcode就可以了，大部分都是这样解决了。\n当然，我用这个方法没有解决。万念俱灰下，重新用了百度..想看看国内人怎么解决的，记不得在cocoachina还是csdn看到一个人说，那些方法我都没有，我把Alcatraz下载下来运行了一下就ok了…\n于是乎，我上github上下载了Alcatraz，运行了一下。。我也ok了。。\n基本上遇到的大坑就这几个，踩完也没啥了。\n但是我app store更新完新版本的Xcode7之后再安装Xcode6，app store就会更新我的Xcode6..而且我的homebrew也是只能识别我的Xcode6了…我一直无法解决。还有我的XQuartz一直显示过期也没法解决。简直，强迫症。\n最后唠两句。\n最近为啥没更新博客，我会说我同时写了几份代码么…完全没有时间。。 最近的心凉的很透彻。晚上看着微信洗脸。唉，说好了四星期之后做点其他事情，这都五星期了，还在写代码。在意的东西太多，不放弃一些永远只能这样。\n还有，暂时是决定考研了。\n有些事情，唉，就这了，没戏的事情总在想也没啥意义..还是忙一忙充实充实就不想了。\n参考链接 1.关于 OSX 升级到 EI Captain 的解决方案\n2.Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool\n3.xcode-select active developer directory error on OSX Mavericks\n4.Can’t install gems on MacOS X “El Capitan”\n",
+  "wordCount" : "96",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/images/papermod-cover.png","datePublished": "2015-11-18T19:54:59Z",
+  "dateModified": "2015-11-18T19:54:59Z",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/mac-eicaptain-upgrade-problem/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "迪迪咕咕",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="迪迪咕咕 (Alt + H)">迪迪咕咕</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/index.xml" title="订阅">
+                    <span>订阅</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/adityatelange/hugo-PaperMod/wiki/" title="关于">
+                    <span>关于</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Mac升级10.11 EI Captain 填坑
+    </h1>
+    <div class="post-meta"><span title='2015-11-18 19:54:59 +0000 UTC'>十一月 18, 2015</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Me
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#1-homebrew%e4%b8%8d%e8%83%bd%e4%bd%bf%e7%94%a8" aria-label="1. homebrew不能使用">1. homebrew不能使用</a></li>
+                <li>
+                    <a href="#2-xtrafinder%e4%b8%8d%e8%83%bd%e4%bd%bf%e7%94%a8" aria-label="2. Xtrafinder不能使用">2. Xtrafinder不能使用</a></li>
+                <li>
+                    <a href="#3-gem%e6%9b%b4%e6%96%b0" aria-label="3. gem更新">3. gem更新</a></li>
+                <li>
+                    <a href="#4xcode%e7%9a%84alcatraz%e4%b8%8d%e5%9c%a8window%e4%b8%8b%e6%98%be%e7%a4%ba" aria-label="4.Xcode的Alcatraz不在window下显示">4.Xcode的Alcatraz不在window下显示</a></li>
+                <li>
+                    <a href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5" aria-label="参考链接">参考链接</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>上周日更新了新版的Mac OS 10.11 EI Captain，上午在工作室升级Xcode7还有keynote等等，下午安装操作系统和各种倒腾。最后发现时间都浪费在下午软件不能正常安装上了。特此写篇博客记录一下整个填更新的填坑过程。</p>
+<p>其实我是很反对更新的，一更新就得踩坑，但是强迫症患者没法看到有更新不去更。</p>
+<p>下面开始正文。</p>
+<h2 id="1-homebrew不能使用">1. homebrew不能使用<a hidden class="anchor" aria-hidden="true" href="#1-homebrew不能使用">#</a></h2>
+<p>homebrew本身是需要Xcode的command line的，而新版的Xcode7，应该是会把之前的command line删除了..所以即使你用<code>sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code>但是你还是没有办法使用homebrew，你在使用homebrew的时候，不论什么命令，都是<code>Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool</code></p>
+<p>当然，有<code>sudo xcodebuild -license</code>的原因，就是你没有同意xcodebuild的license。当然这些我都试了。还是不行，后来查查发现是command line没有选中的原因。</p>
+<p>解决方法：首先<code>xcode-select -p</code>一般默认是<code>sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code>
+但是Xcode7你需要切换到/Library/Developer/CommandLineTools，这时候就好了。</p>
+<p>很多人的homebrew不能用是因为权限问题，在使用homebrew doctor的时候会提醒你。这点就不说了。</p>
+<h2 id="2-xtrafinder不能使用">2. Xtrafinder不能使用<a hidden class="anchor" aria-hidden="true" href="#2-xtrafinder不能使用">#</a></h2>
+<p>Xtrafinder更新完之后会提醒你怎么做，这就是苹果的rootless机制导致的，开开就OK了。</p>
+<p>我想说的就是Xtrafinder会挡住finder一部分，前天好像已经出了更新，但是源没有换，所以还是0.25.6版本。V2ex上有人问了，大家都一样，不是电脑的问题所以不要着急。</p>
+<h2 id="3-gem更新">3. gem更新<a hidden class="anchor" aria-hidden="true" href="#3-gem更新">#</a></h2>
+<p>gem安装的东西，反正我的是都没了&hellip;因为苹果把/usr (except /usr/local)里的东西都再见了。需要把gem的默认安装路径重新设置一下。
+所以我的rails还有博客的jekyll，当然，还有我的cocoapods都挂了。需要重新安装。</p>
+<p>网上好多方法，说自定义GEM_HOME等等。我觉得都不太好，在stackoverflow上看到一个方法很好，分享一下。</p>
+<p>打开terminal修改~/.gemrc</p>
+<p>增加<code>gem: -n/usr/local/bin</code>这样就把gem的默认安装环境换到了/usr/local/bin下，这样更新gem就没问题了。</p>
+<h2 id="4xcode的alcatraz不在window下显示">4.Xcode的Alcatraz不在window下显示<a hidden class="anchor" aria-hidden="true" href="#4xcode的alcatraz不在window下显示">#</a></h2>
+<p>也就自己的Mac作大死解决这个问题。</p>
+<p>网上有很多在github提issue，我看了很多，对着做了很多。里面说的都很详细，在此不贴，最后面有链接。</p>
+<p>基本上原因就是，你的Alcatraz没有加入Xcode的UUID。</p>
+<p>这里说明一下，每个Xcode版本的UUID不一样，所以最好的方法是先获取Xcode的UUID。</p>
+<p>命令是<code>defaults read /Applications/Xcode.app/Contents/Info DVTPlugInCompatibilityUUID</code></p>
+<p>最后加到一个plist文件然后重启Xcode就可以了，大部分都是这样解决了。</p>
+<p>当然，我用这个方法没有解决。万念俱灰下，重新用了百度..想看看国内人怎么解决的，记不得在cocoachina还是csdn看到一个人说，那些方法我都没有，我把Alcatraz下载下来运行了一下就ok了&hellip;</p>
+<p>于是乎，我上github上下载了Alcatraz，运行了一下。。我也ok了。。</p>
+<p>基本上遇到的大坑就这几个，踩完也没啥了。</p>
+<p>但是我app store更新完新版本的Xcode7之后再安装Xcode6，app store就会更新我的Xcode6..而且我的homebrew也是只能识别我的Xcode6了&hellip;我一直无法解决。还有我的XQuartz一直显示过期也没法解决。简直，强迫症。</p>
+<blockquote>
+<p>最后唠两句。</p>
+</blockquote>
+<blockquote>
+<p>最近为啥没更新博客，我会说我同时写了几份代码么&hellip;完全没有时间。。
+最近的心凉的很透彻。晚上看着微信洗脸。唉，说好了四星期之后做点其他事情，这都五星期了，还在写代码。在意的东西太多，不放弃一些永远只能这样。</p>
+</blockquote>
+<blockquote>
+<p>还有，暂时是决定考研了。</p>
+</blockquote>
+<blockquote>
+<p>有些事情，唉，就这了，没戏的事情总在想也没啥意义..还是忙一忙充实充实就不想了。</p>
+</blockquote>
+<h2 id="参考链接">参考链接<a hidden class="anchor" aria-hidden="true" href="#参考链接">#</a></h2>
+<p>1.<a href="http://guojianxiang.com/posts/2015-10-06-Update_OSX_EI_Captain_Problems.html">关于 OSX 升级到 EI Captain 的解决方案</a></p>
+<p>2.<a href="https://github.com/Homebrew/homebrew/issues/44071">Failure while executing: /usr/bin/otool -L /usr/bin/install_name_tool</a></p>
+<p>3.<a href="http://stackoverflow.com/questions/17980759/xcode-select-active-developer-directory-error-on-osx-mavericks">xcode-select active developer directory error on OSX Mavericks</a></p>
+<p>4.<a href="http://stackoverflow.com/questions/31972968/cant-install-gems-on-macos-x-el-capitan">Can&rsquo;t install gems on MacOS X “El Capitan”</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/study-is-happiness/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>念书真的很幸福</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/mac-install-aircrackng/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Mac安装Aircrack-ng</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span><a href="https://www.dididigu.com/">DiDi&rsquo;s Website</a></span> · 
+
+    <span>
+        tesths © 2024. All rights reserved.
+        
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
