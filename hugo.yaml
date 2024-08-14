@@ -43,7 +43,7 @@ languages:
           url: /index.xml
           weight: 10
         - name: 关于
-          url: https://github.com/adityatelange/hugo-PaperMod/wiki/
+          url: https://github.com/tesths
 
 outputs:
   home:
