@@ -121,9 +121,9 @@ params:
   # icon: icon.png
   # iconHeight: 35
 
-  # analytics:
-  #     google:
-  #         SiteVerificationTag: "XYZabc"
+  analytics:
+      google:
+          SiteVerificationTag: "G-TDLGKNFLD6"
 
   assets:
     disableHLJS: true
@@ -184,3 +184,5 @@ services:
     disableInlineCSS: true
   disqus:
     shortname: "dididigu"
+  googleAnalytics:
+    ID: G-TDLGKNFLD6
