@@ -1,0 +1,94 @@
+/* main.css */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background-color: #f7fafc; /* bg-gray-100 */
+    margin-top: -50px; /* 调整这个值来实现上移 */
+    padding: 1rem; /* 增加内边距以适应手机屏幕 */
+    font-size: 1.125rem; /* text-lg */
+}
+
+h1 {
+    font-size: 2rem; /* text-2xl */
+    font-weight: bold; /* font-bold */
+    margin-bottom: 1.5rem; /* mb-6 */
+}
+
+@media (min-width: 640px) {
+    h1 {
+        font-size: 2.5rem; /* sm:text-4xl */
+    }
+}
+
+input {
+    margin-bottom: 1.5rem; /* mb-6 */
+    padding: 0.75rem; /* p-3 */
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    border-radius: 0.25rem; /* rounded */
+    width: 100%;
+    max-width: 24rem; /* max-w-sm */
+}
+
+@media (min-width: 640px) {
+    input {
+        max-width: 28rem; /* sm:max-w-md */
+    }
+}
+
+p {
+    margin-bottom: 1.5rem; /* mb-6 */
+    font-size: 1.25rem; /* text-xl */
+}
+
+@media (min-width: 640px) {
+    p {
+        font-size: 1.5rem; /* sm:text-2xl */
+    }
+}
+
+button {
+    margin-bottom: 1rem; /* mb-4 */
+    padding: 0.75rem; /* p-3 */
+    background-color: white; /* bg-white */
+    color: black; /* text-black */
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    border-radius: 0.25rem; /* rounded */
+    width: 100%; /* 在手机模式下按钮宽度为100% */
+    max-width: 24rem; /* max-w-sm */
+}
+
+@media (min-width: 640px) {
+    button {
+        width: 100%;
+        max-width: 28rem; /* sm:max-w-md */
+    }
+}
+
+@media (max-width: 640px) {
+    button {
+        width: calc(100% - 2rem); /* 在手机模式下按钮距离边缘更窄 */
+        max-width: none; /* 取消 max-width 限制 */
+    }
+}
+
+.bar {
+    height: 1.5rem; /* h-6 */
+}
+
+.circle {
+    width: 1.5rem; /* w-6 */
+    height: 1.5rem; /* h-6 */
+    border-radius: 50%; /* rounded-full */
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.box-container {
+    position: relative;
+    display: inline-block;
+}

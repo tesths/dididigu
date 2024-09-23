@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>概率模拟</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .red {
+            color: red;
+        }
+        .green {
+            color: green;
+        }
+        .bar {
+            height: 20px;
+        }
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .box-container {
+            position: relative;
+            display: inline-block;
+        }
+    </style>
+    <script src="main.js" defer></script>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen bg-gray-100 mt-[-50px] p-4 text-lg">
+    <h1 class="text-2xl sm:text-4xl font-bold mb-6">概率模拟</h1>
+    <input type="number" id="numberInput" oninput="updateSimulationCount()" placeholder="输入一个数字" class="mb-6 p-3 border border-gray-300 rounded w-full max-w-sm sm:max-w-md">
+    <p id="simulationCount" class="mb-6 text-xl sm:text-2xl">模拟次数：</p>
+    <button onclick="enterSimulation('1红1绿')" class="mb-4 p-3 bg-white text-black border border-gray-300 rounded w-full max-w-sm sm:max-w-md">进入 <span class="red">1 红</span> <span class="green">1 绿</span> 模拟</button>
+    <button onclick="enterSimulation('3红1绿')" class="p-3 bg-white text-black border border-gray-300 rounded w-full max-w-sm sm:max-w-md">进入 <span class="red">3 红</span> <span class="green">1 绿</span> 模拟</button>
+    <div id="result" class="w-full max-w-md mt-4"></div>
+</body>
+</html>
